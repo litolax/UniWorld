@@ -5,20 +5,21 @@ import { useTranslation } from 'next-i18next';
 import { getSession, signIn } from 'next-auth/react';
 
 export default function Unauthorized() {
-	const { t } = useTranslation();
+	const { t } = useTranslation('errors');
 
 	return (
 		<Result
 			style={{
 				margin: '15% auto',
-				width: '40%'
+				width: '40%',
+				whiteSpace: 'pre-wrap'
 			}}
-			title={t('errors.unauthorized.title')}
-			subTitle={t('errors.unauthorized.description')}
+			title={t('unauthorized.title')}
+			subTitle={t('unauthorized.description')}
 			extra={
 				<>
 					<Button type='primary' onClick={() => signIn('google')}>
-						{t('errors.unauthorized.loginWith.google')}
+						{t('unauthorized.loginWith.google')}
 					</Button>
 				</>
 			}
@@ -40,7 +41,7 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
 	return {
 		redirect: await redirectMainPage(ctx),
 		props: {
-			...(await serverSideTranslations(ctx.locale || 'ru', ['common']))
+			...(await serverSideTranslations(ctx.locale || 'ru', ['errors']))
 		}
 	};
 };
