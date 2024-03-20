@@ -28,7 +28,7 @@
     "quotes": ["error", "single"],
     "no-duplicate-imports": "error",
     "@typescript-eslint/no-explicit-any": "off",
-    "linebreak-style": ["error", "windows"]
+    "linebreak-style": "off"
   },
   "settings": {
     "import/resolver": {
