@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint {src,components,pages}/**/*.{js,jsx,ts,tsx,json}",
+    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx,.json ./src/ ./components/ ./pages/",
+    "format": "prettier --write '{src,components,pages}/**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
   "dependencies": {
     "@mantine/core": "^7.6.2",
