@@ -7,7 +7,7 @@ import { MantineProvider } from '@mantine/core';
 
 const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
 	return (
-		<MantineProvider defaultColorScheme="dark">
+		<MantineProvider >
 			<SessionProvider session={session}>
 				<Component {...pageProps} />
 			</SessionProvider>

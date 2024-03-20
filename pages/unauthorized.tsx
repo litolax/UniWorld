@@ -1,30 +1,34 @@
-import { Button, Result } from 'antd';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetServerSideProps } from 'next';
 import { useTranslation } from 'next-i18next';
 import { getSession, signIn } from 'next-auth/react';
+import { Button, Flex, Title } from '@mantine/core';
 
 export default function Unauthorized() {
 	const { t } = useTranslation('errors');
 
-	return (
-		<Result
+	return (<>
+		<Flex
+			justify='center'
+			align='center'
+			direction='column'
 			style={{
-				margin: '15% auto',
-				width: '40%',
-				whiteSpace: 'pre-wrap'
+				height: '100vh',
+				display: 'flex'
 			}}
-			title={t('unauthorized.title')}
-			subTitle={t('unauthorized.description')}
-			extra={
-				<>
-					<Button type='primary' onClick={() => signIn('google')}>
-						{t('unauthorized.loginWith.google')}
-					</Button>
-				</>
-			}
-		/>
-	);
+			gap={'2rem'}>
+			<Title order={1}>
+				{t('unauthorized.title')}
+			</Title>
+			<Title order={3} style={{
+				whiteSpace: 'pre-line',
+				textAlign: 'center'
+			}}>
+				{t('unauthorized.description')}
+			</Title>
+			<Button variant='filled' onClick={() => signIn('google')}>{t('unauthorized.loginWith.google')}</Button>
+		</Flex>
+	</>);
 }
 
 async function redirectMainPage(ctx: any) {

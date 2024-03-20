@@ -1,18 +1,21 @@
 import { GetServerSideProps } from 'next';
-import { authRedirect } from '../src/server/authRedirect';
 import path from 'path';
+import Header from '../components/Header';
 
 path.resolve('./next.config.js');
 
 export default function Home() {
-	return <></>;
+
+	return <>
+		<Header/>
+	</>;
 }
 
 export const getServerSideProps: GetServerSideProps = async ctx => {
 	return {
-		redirect: (await authRedirect(ctx)) ?? {
-			destination: '/profile/@me' //TODO PATH
-		},
+		// redirect: (await authRedirect(ctx)) ?? {
+		// 	destination: '/profile/@me' //TODO PATH
+		// },
 		props: {}
 	};
 };
