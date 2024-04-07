@@ -1,17 +1,24 @@
+import { Button, Flex, Title } from '@mantine/core'
+
 export default function Header() {
   return (
-    <div>
-      <header>
-        <h1>
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-          been the standard dummy text ever since the 1500s, when an unknown printer took a galley
-          of type and scrambled it to make a type specimen book. It has survived not only five
-          centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-          It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
-          passages, and more recently with desktop publishing software like Aldus PageMaker
-          including versions of Lorem Ipsum.
-        </h1>
-      </header>
-    </div>
+    <header
+      style={{
+        backgroundColor: 'rgb(74, 74, 74)',
+      }}
+    >
+      <Flex gap={'30%'} align={'center'} justify={'center'} h={'7vh'}>
+        <Flex gap='xl' justify='flex-end' align='center' direction='row' wrap='nowrap'>
+          <Title order={1}>UniWorld</Title>
+          <Button>Home</Button>
+          <Button>About</Button>
+          <Button>Contact us</Button>
+        </Flex>
+        <Flex gap='xl' justify='flex-end' align='center' direction='row' wrap='nowrap'>
+          <Button>Create account</Button>
+          <Button>Login</Button>
+        </Flex>
+      </Flex>
+    </header>
   )
 }
