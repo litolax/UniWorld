@@ -51,7 +51,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
     redirect: await redirectMainPage(ctx),
     props: {
-      ...(await serverSideTranslations(ctx.locale || 'ru-RU', ['errors'])),
+      ...(await serverSideTranslations(ctx.locale || 'ru', ['errors'])),
     },
   }
 }
