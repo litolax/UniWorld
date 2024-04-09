@@ -14,6 +14,8 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { useRouter } from 'next/navigation'
 import { useForm } from '@mantine/form'
+import { GetServerSideProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 export default function SignIn() {
   const router = useRouter()
@@ -89,4 +91,12 @@ export default function SignIn() {
       <Footer />
     </div>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale || 'ru', ['common'])),
+    },
+  }
 }

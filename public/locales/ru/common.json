@@ -1,1 +1,9 @@
-﻿{}
+﻿{
+  "header": {
+    "companyName": "UniWorld"
+  },
+  "buttons": {
+    "signUp": "Зарегистрироваться",
+    "signIn": "Войти"
+  }
+}
