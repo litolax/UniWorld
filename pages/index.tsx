@@ -14,7 +14,7 @@ export default function Home() {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   return {
     // redirect: (await authRedirect(ctx)) ?? {
     // 	destination: '/profile/@me' //TODO PATH
