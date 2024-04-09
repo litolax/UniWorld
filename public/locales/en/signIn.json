@@ -1,0 +1,17 @@
+{
+  "welcome": "Welcome to UniWorld!",
+  "fields": {
+    "email": {
+      "label": "Email",
+      "placeholder": "hello@uniworld.dev",
+      "invalid": "Invalid email"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Your password",
+      "tooLittle": "Password should include at least 6 characters"
+    }
+  },
+  "doNotHaveAccount": "Do not have an account? Sign Up",
+  "signIn": "Sign In"
+}

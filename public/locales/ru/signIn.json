@@ -1,0 +1,21 @@
+{
+  "welcome": "Приветствуем в UniWorld!",
+  "fields": {
+    "name": {
+      "label": "Имя",
+      "placeholder": "Ваше имя"
+    },
+    "email": {
+      "label": "Почта",
+      "placeholder": "hello@uniworld.dev",
+      "invalid": "Неправильная почта"
+    },
+    "password": {
+      "label": "Пароль",
+      "placeholder": "Ваш пароль",
+      "tooLittle": "Пароль должен состоять минимум из 6 знаков"
+    }
+  },
+  "doNotHaveAccount": "У вас нет аккаунта? Зарегистрируйтесь",
+  "signIn": "Войти"
+}
