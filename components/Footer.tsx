@@ -1,5 +1,6 @@
 import { Container, Group, Anchor, Title, Divider } from '@mantine/core'
 import classes from '../styles/FooterSimple.module.css'
+import { useTranslation } from 'next-i18next'
 
 const links = [
   { link: '#', label: 'Contact' },
@@ -9,6 +10,8 @@ const links = [
 ]
 
 export default function Footer() {
+  const { t } = useTranslation()
+
   const items = links.map((link) => (
     <Anchor<'a'>
       c='dimmed'
@@ -35,7 +38,7 @@ export default function Footer() {
     >
       <Divider mb={'sm'} />
       <Container className={classes.inner}>
-        <Title order={5}>© 2024 UniWorld — Все права защищены.</Title>
+        <Title order={5}>{t('footer.allRights')}</Title>
         <Group>{items}</Group>
       </Container>
     </footer>
