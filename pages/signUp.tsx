@@ -76,12 +76,6 @@ export default function SignUp() {
                   error={form.errors.password && 'Password should include at least 6 characters'}
                   radius='md'
                 />
-
-                <Checkbox
-                  label='I accept terms and conditions'
-                  checked={form.values.terms}
-                  onChange={(event) => form.setFieldValue('terms', event.currentTarget.checked)}
-                />
               </Stack>
 
               <Group justify='space-between' mt='xl'>
