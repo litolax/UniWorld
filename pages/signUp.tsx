@@ -16,9 +16,11 @@ import { useRouter } from 'next/navigation'
 import { useForm } from '@mantine/form'
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'next-i18next'
 
 export default function SignUp() {
   const router = useRouter()
+  const { t } = useTranslation('signUp')
   const form = useForm({
     initialValues: {
       email: '',
@@ -28,8 +30,8 @@ export default function SignUp() {
     },
 
     validate: {
-      email: (val) => (/^\S+@\S+$/.test(val) ? null : 'Invalid email'),
-      password: (val) => (val.length <= 6 ? 'Password should include at least 6 characters' : null),
+      email: (val) => (/^\S+@\S+$/.test(val) ? null : t('email.invalid')),
+      password: (val) => (val.length <= 6 ? t('password.tooLittle') : null),
     },
   })
 
@@ -41,9 +43,9 @@ export default function SignUp() {
           marginTop: '15vh',
         }}
       >
-        <Container size={420} my={40}>
+        <Container size={460} my={40}>
           <Title ta='center' className={classes.title}>
-            Welcome to UniWorld!
+            {t('welcome')}
           </Title>
 
           <Paper withBorder shadow='md' p={30} mt={30} radius='md'>
@@ -51,8 +53,8 @@ export default function SignUp() {
               <Stack>
                 <TextInput
                   required
-                  label='Name'
-                  placeholder='Your name'
+                  label={t<string>('fields.name.label')}
+                  placeholder={t<string>('fields.name.placeholder')}
                   value={form.values.name}
                   onChange={(event) => form.setFieldValue('name', event.currentTarget.value)}
                   radius='md'
@@ -60,21 +62,21 @@ export default function SignUp() {
 
                 <TextInput
                   required
-                  label='Email'
-                  placeholder='hello@mantine.dev'
+                  label={t<string>('fields.email.label')}
+                  placeholder={t<string>('fields.email.placeholder')}
                   value={form.values.email}
                   onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
-                  error={form.errors.email && 'Invalid email'}
+                  error={form.errors.email && t('fields.email.invalid')}
                   radius='md'
                 />
 
                 <PasswordInput
                   required
-                  label='Password'
-                  placeholder='Your password'
+                  label={t<string>('fields.password.label')}
+                  placeholder={t<string>('fields.password.placeholder')}
                   value={form.values.password}
                   onChange={(event) => form.setFieldValue('password', event.currentTarget.value)}
-                  error={form.errors.password && 'Password should include at least 6 characters'}
+                  error={form.errors.password && t('fields.password.tooLittle')}
                   radius='md'
                 />
               </Stack>
@@ -87,10 +89,10 @@ export default function SignUp() {
                   onClick={() => router.replace('/signIn')}
                   size='xs'
                 >
-                  Already have an account? Sign In
+                  {t('alreadyHaveAnAccount')}
                 </Anchor>
                 <Button type='submit' radius='xl'>
-                  Register
+                  {t('signUp')}
                 </Button>
               </Group>
             </form>
@@ -105,7 +107,7 @@ export default function SignUp() {
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale || 'ru', ['common'])),
+      ...(await serverSideTranslations(locale || 'ru', ['common', 'signUp'])),
     },
   }
 }

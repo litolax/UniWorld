@@ -1,0 +1,12 @@
+﻿{
+  "header": {
+    "companyName": "UniWorld"
+  },
+  "footer": {
+    "allRights": "© 2024 UniWorld — Все права защищены."
+  },
+  "buttons": {
+    "signUp": "Зарегистрироваться",
+    "signIn": "Войти"
+  }
+}
