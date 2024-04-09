@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "@mantine/core": "^7.6.2",
-    "@mantine/hooks": "^7.6.2",
+    "@mantine/form": "^7.7.1",
+    "@mantine/hooks": "^7.7.1",
     "@next/font": "13.1.1",
     "@types/node": "18.11.18",
     "@types/react": "18.0.26",
@@ -40,5 +41,9 @@
     "react-i18next": "^12.1.1",
     "sharp": "^0.31.3",
     "typescript": "5.2.2"
+  },
+  "devDependencies": {
+    "postcss-preset-mantine": "^1.13.0",
+    "sass": "^1.74.1"
   }
 }
