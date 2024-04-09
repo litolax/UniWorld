@@ -32,7 +32,7 @@ export default function Page404() {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale || 'ru', ['errors'])),
+      ...(await serverSideTranslations(locale || 'ru-RU', ['errors'])),
     },
   }
 }

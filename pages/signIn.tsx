@@ -96,7 +96,7 @@ export default function SignIn() {
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale || 'ru', ['common', 'signIn'])),
+      ...(await serverSideTranslations(locale || 'ru-RU', ['common', 'signIn'])),
     },
   }
 }
