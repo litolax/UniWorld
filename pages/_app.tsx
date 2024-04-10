@@ -1,5 +1,6 @@
 import '../styles/globals.css'
 import '@mantine/core/styles.css'
+import '@mantine/notifications/styles.css'
 import type { AppProps } from 'next/app'
 import { SessionProvider } from 'next-auth/react'
 import { appWithTranslation } from 'next-i18next'
@@ -13,7 +14,7 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
 
   return (
     <MantineProvider theme={theme} defaultColorScheme={'dark'}>
-      <Notifications />
+      <Notifications position={'bottom-right'} />
       <SessionProvider session={session}>
         <Component {...pageProps} />
       </SessionProvider>
