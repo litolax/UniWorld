@@ -4,6 +4,7 @@ import type { AppProps } from 'next/app'
 import { SessionProvider } from 'next-auth/react'
 import { appWithTranslation } from 'next-i18next'
 import { createTheme, MantineProvider } from '@mantine/core'
+import { Notifications } from '@mantine/notifications'
 
 const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
   const theme = createTheme({
@@ -12,6 +13,7 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
 
   return (
     <MantineProvider theme={theme} defaultColorScheme={'dark'}>
+      <Notifications />
       <SessionProvider session={session}>
         <Component {...pageProps} />
       </SessionProvider>
