@@ -17,6 +17,9 @@ import { useForm } from '@mantine/form'
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
+import { TAccount } from '../src/types/TAccount'
+import { ObjectID } from 'bson'
+import { sendErrorNotification } from '../src/utils'
 
 export default function SignUp() {
   const router = useRouter()
@@ -24,9 +27,8 @@ export default function SignUp() {
   const form = useForm({
     initialValues: {
       email: '',
-      name: '',
+      username: '',
       password: '',
-      terms: true,
     },
 
     validate: {
@@ -34,6 +36,39 @@ export default function SignUp() {
       password: (val) => (val.length <= 6 ? t('password.tooLittle') : null),
     },
   })
+
+  const signUp = async () => {
+    const email = form.values.email
+    const username = form.values.username
+    const password = form.values.password
+
+    const account: TAccount = {
+      _id: new ObjectID(),
+      username,
+      password,
+      email,
+    }
+
+    const response = await fetch('/api/signUp', {
+      method: 'POST',
+      body: JSON.stringify(account),
+    })
+
+    if (!response.ok) {
+      switch (response.status) {
+        case 409: {
+          sendErrorNotification(t('errors:already.accountExists'))
+          return
+        }
+        default: {
+          throw new Error(response.statusText)
+        }
+      }
+    }
+
+    // redirect to main after sign Up
+    router.replace('/signIn')
+  }
 
   return (
     <div>
@@ -49,14 +84,14 @@ export default function SignUp() {
           </Title>
 
           <Paper withBorder shadow='md' p={30} mt={30} radius='md'>
-            <form onSubmit={form.onSubmit(() => {})}>
+            <form onSubmit={form.onSubmit(signUp)}>
               <Stack>
                 <TextInput
                   required
                   label={t<string>('fields.name.label')}
                   placeholder={t<string>('fields.name.placeholder')}
-                  value={form.values.name}
-                  onChange={(event) => form.setFieldValue('name', event.currentTarget.value)}
+                  value={form.values.username}
+                  onChange={(event) => form.setFieldValue('username', event.currentTarget.value)}
                   radius='md'
                 />
 
@@ -107,7 +142,7 @@ export default function SignUp() {
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale || 'ru', ['common', 'signUp'])),
+      ...(await serverSideTranslations(locale || 'ru', ['common', 'errors', 'signUp'])),
     },
   }
 }
