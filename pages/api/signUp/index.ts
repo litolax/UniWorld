@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { connectToDatabase } from '../../../src/server/database'
 import { TAccount } from '../../../src/types/TAccount'
 import { ObjectID } from 'bson'
+import * as argon2 from 'argon2'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const requestBody = req.body
@@ -22,11 +23,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(409).json({})
   }
 
+  const hashedPassword = await argon2.hash(password)
   const account: TAccount = {
     _id: new ObjectID(),
     email,
     username,
-    password,
+    password: hashedPassword,
   }
 
   collection.insertOne(account)

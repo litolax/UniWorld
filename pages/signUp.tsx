@@ -17,8 +17,6 @@ import { useForm } from '@mantine/form'
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
-import { TAccount } from '../src/types/TAccount'
-import { ObjectID } from 'bson'
 import { sendErrorNotification } from '../src/utils'
 
 export default function SignUp() {
