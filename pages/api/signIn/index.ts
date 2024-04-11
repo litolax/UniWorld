@@ -23,7 +23,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   const hashedPassword = await argon2.hash(password)
 
-  if (await argon2.verify(account.password, hashedPassword)) {
+  if (!(await argon2.verify(account.password, hashedPassword))) {
     return res.status(409).json({})
   }
 
