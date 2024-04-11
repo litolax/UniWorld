@@ -1,6 +1,6 @@
 import { Accordion, AppShell, Button, Flex, ScrollArea } from '@mantine/core'
 import { useTranslation } from 'next-i18next'
-import { GetServerSideProps } from 'next'
+import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -11,8 +11,12 @@ import { useState } from 'react'
 import { ESettingPage } from '../src/types/ESettingPage'
 import { Settings } from '../components/views/Settings/Settings'
 import { EMainViewPage } from '../src/types/EMainViewPage'
+import { getSession } from 'next-auth/react'
+import { TAccount } from '../src/types/TAccount'
+import { getAccountByEmail } from '../src/server/account'
+import { dataFix } from '../src/utils'
 
-export default function MainMenu() {
+export default function MainMenu(props: { account?: TAccount }) {
   const { t } = useTranslation('main')
   const [currentPage, setCurrentPage] = useState(EMainViewPage.None)
   const [settingPage, setSettingsPage] = useState(ESettingPage.None)
@@ -81,8 +85,8 @@ export default function MainMenu() {
         <Header />
       </AppShell.Header>
       <AppShell.Navbar p='md'>
-        <AppShell.Section key={1}>{t('ui.views.main.title')}</AppShell.Section>
-        <AppShell.Section key={2} grow component={ScrollArea}>
+        <AppShell.Section>{t('ui.views.main.title')}</AppShell.Section>
+        <AppShell.Section grow component={ScrollArea}>
           {mainViewTabs.map(createTabs)}
         </AppShell.Section>
       </AppShell.Navbar>
@@ -92,7 +96,7 @@ export default function MainMenu() {
           backgroundColor: 'rgb(36, 36, 36)',
         }}
       >
-        {currentPage === EMainViewPage.Profile && <Profile />}
+        {currentPage === EMainViewPage.Profile && <Profile account={props.account} />}
         {currentPage === EMainViewPage.Settings && <Settings currentPage={settingPage} />}
       </AppShell.Main>
       <AppShell.Footer>
@@ -102,10 +106,18 @@ export default function MainMenu() {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  const session = await getSession(ctx)
+  let currentAccount
+
+  if (session && session.user?.email) {
+    currentAccount = dataFix(await getAccountByEmail(session.user?.email))
+  }
+
   return {
     props: {
-      ...(await serverSideTranslations(locale || 'ru', ['common', 'main', 'errors'])),
+      account: currentAccount,
+      ...(await serverSideTranslations(ctx.locale || 'ru', ['common', 'main', 'errors'])),
     },
   }
 }
