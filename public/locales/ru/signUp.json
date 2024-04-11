@@ -1,9 +1,10 @@
 {
   "welcome": "Приветствуем в UniWorld!",
   "fields": {
-    "name": {
+    "username": {
       "label": "Имя",
-      "placeholder": "Ваше имя"
+      "placeholder": "Ваше имя",
+      "tooLittle": "Имя должно состоять минимум из 4 символов"
     },
     "email": {
       "label": "Почта",
@@ -13,7 +14,13 @@
     "password": {
       "label": "Пароль",
       "placeholder": "Ваш пароль",
-      "tooLittle": "Пароль должен состоять минимум из 6 знаков"
+      "tooLittle": "Пароль должен состоять минимум из 6 символов"
+    },
+    "sex": {
+      "label": "Пол",
+      "male": "Мужской",
+      "female": "Женский",
+      "shouldBeSelected": "Необходимо выбрать пол"
     }
   },
   "alreadyHaveAnAccount": "У вас уже есть аккаунт? Войдите",

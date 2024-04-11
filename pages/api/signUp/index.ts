@@ -3,15 +3,17 @@ import { connectToDatabase } from '../../../src/server/database'
 import { TAccount } from '../../../src/types/TAccount'
 import { ObjectID } from 'bson'
 import * as argon2 from 'argon2'
+import { ESex } from '../../../src/types/ESex'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const requestBody = req.body
   if (!requestBody) return res.json({})
 
-  const { username, password, email } = JSON.parse(requestBody) as {
+  const { username, password, email, sex } = JSON.parse(requestBody) as {
     username: string
     password: string
     email: string
+    sex: ESex
   }
 
   const { db } = await connectToDatabase()
@@ -28,6 +30,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     _id: new ObjectID(),
     email,
     username,
+    sex,
     password: hashedPassword,
   }
 
