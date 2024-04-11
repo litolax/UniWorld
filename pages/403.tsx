@@ -21,7 +21,7 @@ export default function Page403() {
         gap={'2rem'}
       >
         <Title order={1}>{t('unauthorized.forAccess')}</Title>
-        <Button variant='filled' onClick={() => router.replace('/')}>
+        <Button variant='filled' onClick={() => router.push('/')}>
           {t('backHome')}
         </Button>
       </Flex>

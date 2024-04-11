@@ -58,7 +58,7 @@ export default function SignUp() {
     }
 
     // redirect to sign In after sign Up
-    router.replace('/signIn')
+    router.push('/signIn')
   }
 
   return (
@@ -112,7 +112,7 @@ export default function SignUp() {
                   component='button'
                   type='button'
                   c='dimmed'
-                  onClick={() => router.replace('/signIn')}
+                  onClick={() => router.push('/signIn')}
                   size='xs'
                 >
                   {t('alreadyHaveAnAccount')}

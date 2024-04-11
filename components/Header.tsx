@@ -14,13 +14,13 @@ export default function Header() {
     >
       <Flex gap={'30%'} align={'center'} justify={'center'} h={'7vh'}>
         <Flex gap='xl' justify='flex-end' align='center' direction='row' wrap='nowrap'>
-          <Title order={1} onClick={() => router.replace('/')}>
+          <Title order={1} onClick={() => router.push('/')}>
             {t('header.companyName')}
           </Title>
         </Flex>
         <Flex gap='xl' justify='flex-end' align='center' direction='row' wrap='nowrap'>
-          <Button onClick={() => router.replace('/signIn')}>{t('buttons.signIn')}</Button>
-          <Button onClick={() => router.replace('/signUp')}>{t('buttons.signUp')}</Button>
+          <Button onClick={() => router.push('/signIn')}>{t('buttons.signIn')}</Button>
+          <Button onClick={() => router.push('/signUp')}>{t('buttons.signUp')}</Button>
         </Flex>
       </Flex>
     </header>

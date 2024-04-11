@@ -62,7 +62,7 @@ export default function SignIn() {
     await signIn('credentials', { email, password, redirect: false })
 
     // redirect to main after sign Up
-    router.replace('/')
+    router.push('/')
   }
 
   return (
@@ -107,7 +107,7 @@ export default function SignIn() {
                   type='button'
                   c='dimmed'
                   size='xs'
-                  onClick={() => router.replace('/signUp')}
+                  onClick={() => router.push('/signUp')}
                 >
                   {t('doNotHaveAccount')}
                 </Anchor>

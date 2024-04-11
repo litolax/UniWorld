@@ -24,7 +24,7 @@ export default function Page404() {
             size='md'
             mt='xl'
             className={classes.control}
-            onClick={() => router.replace('/')}
+            onClick={() => router.push('/')}
           >
             {t('backHome')}
           </Button>

@@ -21,7 +21,7 @@ export default function Page500() {
         gap={'2rem'}
       >
         <Title order={1}>{t('somethingWentWrong')}</Title>
-        <Button variant='filled' onClick={() => router.replace('/')}>
+        <Button variant='filled' onClick={() => router.push('/')}>
           {t('backHome')}
         </Button>
       </Flex>
