@@ -62,7 +62,7 @@ export default function SignIn() {
     await signIn('credentials', { email, password, redirect: false })
 
     // redirect to main after sign Up
-    router.push('/')
+    router.push('/main')
   }
 
   return (

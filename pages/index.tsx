@@ -11,12 +11,12 @@ path.resolve('./next.config.mjs')
 
 export default function Home() {
   const session = useSession()
-  console.log('session: ', session)
-  const authStatus = session.status === 'authenticated'
+  const authorized = session.status === 'authenticated'
+
   return (
     <>
       <Header />
-      <Title order={1}>Вы {authStatus ? 'авторизованы' : 'не авторизованы'}</Title>
+      <Title order={1}>Вы {authorized ? 'авторизованы' : 'не авторизованы'}</Title>
       <Footer />
     </>
   )
