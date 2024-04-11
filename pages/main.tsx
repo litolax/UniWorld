@@ -49,7 +49,7 @@ export default function MainMenu() {
             <Accordion.Item key={index} value={index.toString()}>
               <Accordion.Control>{t(tab.name)}</Accordion.Control>
               <Accordion.Panel>
-                <Flex direction='column' gap={'1rem'} mt={'0.5rem'} mb={'0.5rem'}>
+                <Flex direction='column' gap={'1rem'} mt={'0.5rem'}>
                   {tab.sections?.map((section, i: number) => (
                     <Button onClick={section.click} key={i}>
                       {t(section.title)}
@@ -81,8 +81,8 @@ export default function MainMenu() {
         <Header />
       </AppShell.Header>
       <AppShell.Navbar p='md'>
-        <AppShell.Section>{t('ui.views.main.title')}</AppShell.Section>
-        <AppShell.Section grow component={ScrollArea}>
+        <AppShell.Section key={1}>{t('ui.views.main.title')}</AppShell.Section>
+        <AppShell.Section key={2} grow component={ScrollArea}>
           {mainViewTabs.map(createTabs)}
         </AppShell.Section>
       </AppShell.Navbar>
