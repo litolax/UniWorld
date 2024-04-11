@@ -17,6 +17,8 @@ import { useForm } from '@mantine/form'
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
+import { sendErrorNotification } from '../src/utils'
+import { signIn } from 'next-auth/react'
 
 export default function SignIn() {
   const router = useRouter()
@@ -24,15 +26,44 @@ export default function SignIn() {
   const form = useForm({
     initialValues: {
       email: '',
-      name: '',
       password: '',
-      terms: true,
     },
 
     validate: {
       email: (val) => (/^\S+@\S+$/.test(val) ? null : t('fields.email.invalid')),
     },
   })
+
+  const signInAccount = async () => {
+    const email = form.values.email
+    const password = form.values.password
+
+    const response = await fetch('/api/signIn', {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+    })
+
+    if (!response.ok) {
+      switch (response.status) {
+        case 404: {
+          sendErrorNotification(t('errors:notFound.account.email'))
+          return
+        }
+        case 409: {
+          sendErrorNotification(t('errors:notFound.account.password'))
+          return
+        }
+        default: {
+          throw new Error(response.statusText)
+        }
+      }
+    }
+
+    await signIn('credentials', { email, password, redirect: false })
+
+    // redirect to main after sign Up
+    router.replace('/')
+  }
 
   return (
     <div>
@@ -48,7 +79,7 @@ export default function SignIn() {
           </Title>
 
           <Paper withBorder shadow='md' p={30} mt={30} radius='md'>
-            <form onSubmit={form.onSubmit(() => {})}>
+            <form onSubmit={form.onSubmit(signInAccount)}>
               <Stack>
                 <TextInput
                   required

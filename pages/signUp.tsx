@@ -33,7 +33,7 @@ export default function SignUp() {
 
     validate: {
       email: (val) => (/^\S+@\S+$/.test(val) ? null : t('email.invalid')),
-      password: (val) => (val.length <= 6 ? t('password.tooLittle') : null),
+      password: (val) => (val.length < 6 ? t('password.tooLittle') : null),
     },
   })
 
@@ -42,16 +42,9 @@ export default function SignUp() {
     const username = form.values.username
     const password = form.values.password
 
-    const account: TAccount = {
-      _id: new ObjectID(),
-      username,
-      password,
-      email,
-    }
-
     const response = await fetch('/api/signUp', {
       method: 'POST',
-      body: JSON.stringify(account),
+      body: JSON.stringify({ username, password, email }),
     })
 
     if (!response.ok) {
@@ -66,7 +59,7 @@ export default function SignUp() {
       }
     }
 
-    // redirect to main after sign Up
+    // redirect to sign In after sign Up
     router.replace('/signIn')
   }
 
