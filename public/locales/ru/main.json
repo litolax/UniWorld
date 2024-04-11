@@ -4,7 +4,8 @@
       "main": {
         "title": "Главное меню",
         "tabs": {
-          "settings": "Настройки"
+          "settings": "Настройки",
+          "profile": "Профиль"
         },
         "sections": {
           "settings": {

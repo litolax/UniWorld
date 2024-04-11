@@ -4,37 +4,75 @@ import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import { Profile } from '../components/views/Profile'
+import { TMainViewTab } from '../src/types/TMainViewTab'
+import { EMainViewTabType } from '../src/types/EMainViewTabType'
+import { useState } from 'react'
+import { ESettingPage } from '../src/types/ESettingPage'
+import { Settings } from '../components/views/Settings/Settings'
+import { EMainViewPage } from '../src/types/EMainViewPage'
 
 export default function MainMenu() {
   const { t } = useTranslation('main')
-
-  const tabs = [
+  const [currentPage, setCurrentPage] = useState(EMainViewPage.None)
+  const [settingPage, setSettingsPage] = useState(ESettingPage.None)
+  const mainViewTabs: TMainViewTab[] = [
     {
-      name: 'ui.views.main.tabs.settings',
+      type: EMainViewTabType.Button,
+      name: 'ui.views.main.tabs.profile',
+      onClick: () => {
+        setCurrentPage(EMainViewPage.Profile)
+      },
       sections: [],
+    },
+    {
+      type: EMainViewTabType.Accordion,
+      name: 'ui.views.main.tabs.settings',
+      sections: [
+        {
+          title: 'ui.views.main.sections.settings.main.title',
+          click: () => {
+            setSettingsPage(ESettingPage.Main)
+            setCurrentPage(EMainViewPage.Settings)
+          },
+        },
+      ],
     },
   ]
 
-  const createTabs = (
-    value: { name: string; sections: { title: string; click: () => void }[] },
-    index: number,
-  ) => {
-    return (
-      <Accordion key={index}>
-        <Accordion.Item key={index} value={'1'}>
-          <Accordion.Control>{t(value.name)}</Accordion.Control>
-          <Accordion.Panel>
-            <Flex direction='column' gap={'1rem'} mt={'0.5rem'}>
-              {value.sections.map((section, i: number) => (
-                <Button onClick={section.click} key={i}>
-                  {t(section.title)}
-                </Button>
-              ))}
-            </Flex>
-          </Accordion.Panel>
-        </Accordion.Item>
-      </Accordion>
-    )
+  const createTabs = (tab: TMainViewTab, index: number) => {
+    let component
+    switch (tab.type) {
+      case EMainViewTabType.Accordion: {
+        component = (
+          <Accordion key={index}>
+            <Accordion.Item key={index} value={index.toString()}>
+              <Accordion.Control>{t(tab.name)}</Accordion.Control>
+              <Accordion.Panel>
+                <Flex direction='column' gap={'1rem'} mt={'0.5rem'} mb={'0.5rem'}>
+                  {tab.sections?.map((section, i: number) => (
+                    <Button onClick={section.click} key={i}>
+                      {t(section.title)}
+                    </Button>
+                  ))}
+                </Flex>
+              </Accordion.Panel>
+            </Accordion.Item>
+          </Accordion>
+        )
+        break
+      }
+      case EMainViewTabType.Button: {
+        component = (
+          <Button fullWidth mt={'0.5rem'} mb={'0.5rem'} onClick={tab.onClick}>
+            {t(tab.name)}
+          </Button>
+        )
+        break
+      }
+    }
+
+    return component
   }
 
   return (
@@ -45,7 +83,7 @@ export default function MainMenu() {
       <AppShell.Navbar p='md'>
         <AppShell.Section>{t('ui.views.main.title')}</AppShell.Section>
         <AppShell.Section grow component={ScrollArea}>
-          {tabs.map(createTabs)}
+          {mainViewTabs.map(createTabs)}
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main
@@ -53,7 +91,10 @@ export default function MainMenu() {
           height: '100vh',
           backgroundColor: 'rgb(36, 36, 36)',
         }}
-      ></AppShell.Main>
+      >
+        {currentPage === EMainViewPage.Profile && <Profile />}
+        {currentPage === EMainViewPage.Settings && <Settings currentPage={settingPage} />}
+      </AppShell.Main>
       <AppShell.Footer>
         <Footer />
       </AppShell.Footer>
