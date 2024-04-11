@@ -115,7 +115,7 @@ export default function SignUp() {
               </Stack>
 
               <Radio.Group
-                label={t('fields.sex.label')}
+                label={t('common:sex.label')}
                 withAsterisk
                 mt={'xs'}
                 value={form.values.sex}
@@ -123,8 +123,8 @@ export default function SignUp() {
                 onChange={(value) => form.setFieldValue('sex', value)}
               >
                 <Group>
-                  <Radio value={'male'} label={t('fields.sex.male')} />
-                  <Radio value={'female'} label={t('fields.sex.female')} />
+                  <Radio value={'male'} label={t('common:sex.male')} />
+                  <Radio value={'female'} label={t('common:sex.female')} />
                 </Group>
               </Radio.Group>
 

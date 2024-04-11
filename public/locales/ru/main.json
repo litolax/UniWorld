@@ -8,6 +8,7 @@
           "profile": "Профиль"
         },
         "sections": {
+          "profile": {},
           "settings": {
             "main": {
               "title": "Основные",
