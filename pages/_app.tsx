@@ -1,4 +1,3 @@
-import '../styles/globals.css'
 import '@mantine/core/styles.css'
 import '@mantine/notifications/styles.css'
 import type { AppProps } from 'next/app'

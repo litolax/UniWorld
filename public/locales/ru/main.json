@@ -1,0 +1,25 @@
+{
+  "ui": {
+    "views": {
+      "main": {
+        "title": "Главное меню",
+        "tabs": {
+          "settings": "Настройки"
+        },
+        "sections": {
+          "settings": {
+            "main": {
+              "title": "Основные",
+              "header": "Основные настройки",
+              "language": {
+                "title": "Выберите язык",
+                "placeholder": "Русский...",
+                "nothingFound": "Не найдено"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
