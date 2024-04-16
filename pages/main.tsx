@@ -15,11 +15,14 @@ import { getSession } from 'next-auth/react'
 import { TAccount } from '../src/types/TAccount'
 import { getAccountByEmail } from '../src/server/account'
 import { dataFix } from '../src/utils'
+import { EEventPage } from '../src/types/EEventPage'
+import { Event } from '../components/views/Event/Event'
 
 export default function MainMenu(props: { account?: TAccount }) {
   const { t } = useTranslation('main')
   const [currentPage, setCurrentPage] = useState(EMainViewPage.None)
   const [settingPage, setSettingsPage] = useState(ESettingPage.None)
+  const [eventPage, setEventPage] = useState(EEventPage.None)
   const mainViewTabs: TMainViewTab[] = [
     {
       type: EMainViewTabType.Button,
@@ -38,6 +41,26 @@ export default function MainMenu(props: { account?: TAccount }) {
           click: () => {
             setSettingsPage(ESettingPage.Main)
             setCurrentPage(EMainViewPage.Settings)
+          },
+        },
+      ],
+    },
+    {
+      type: EMainViewTabType.Accordion,
+      name: 'ui.views.main.tabs.event',
+      sections: [
+        {
+          title: 'ui.views.main.sections.event.view.title',
+          click: () => {
+            setEventPage(EEventPage.View)
+            setCurrentPage(EMainViewPage.Event)
+          },
+        },
+        {
+          title: 'ui.views.main.sections.event.create.title',
+          click: () => {
+            setEventPage(EEventPage.Create)
+            setCurrentPage(EMainViewPage.Event)
           },
         },
       ],
@@ -98,6 +121,7 @@ export default function MainMenu(props: { account?: TAccount }) {
       >
         {currentPage === EMainViewPage.Profile && <Profile account={props.account} />}
         {currentPage === EMainViewPage.Settings && <Settings currentPage={settingPage} />}
+        {currentPage === EMainViewPage.Event && <Event currentPage={eventPage} />}
       </AppShell.Main>
       <AppShell.Footer>
         <Footer />
