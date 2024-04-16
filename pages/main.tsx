@@ -17,8 +17,9 @@ import { getAccountByEmail } from '../src/server/account'
 import { dataFix } from '../src/utils'
 import { EEventPage } from '../src/types/EEventPage'
 import { Event } from '../components/views/Event/Event'
+import { ELanguage } from '../src/types/ELanguage'
 
-export default function MainMenu(props: { account?: TAccount }) {
+export default function MainMenu(props: { account: TAccount; savedLocale: ELanguage }) {
   const { t } = useTranslation('main')
   const [currentPage, setCurrentPage] = useState(EMainViewPage.None)
   const [settingPage, setSettingsPage] = useState(ESettingPage.None)
@@ -120,7 +121,9 @@ export default function MainMenu(props: { account?: TAccount }) {
         }}
       >
         {currentPage === EMainViewPage.Profile && <Profile account={props.account} />}
-        {currentPage === EMainViewPage.Settings && <Settings currentPage={settingPage} />}
+        {currentPage === EMainViewPage.Settings && (
+          <Settings currentPage={settingPage} account={props.account} />
+        )}
         {currentPage === EMainViewPage.Event && <Event currentPage={eventPage} />}
       </AppShell.Main>
       <AppShell.Footer>
@@ -131,17 +134,29 @@ export default function MainMenu(props: { account?: TAccount }) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  let redirect = undefined
   const session = await getSession(ctx)
-  let currentAccount
+  let currentAccount: TAccount | null = null
 
   if (session && session.user?.email) {
-    currentAccount = dataFix(await getAccountByEmail(session.user?.email))
+    currentAccount = dataFix(await getAccountByEmail(session.user?.email)) as TAccount
+  }
+
+  const locale = currentAccount?.locale ?? ctx.locale ?? 'ru'
+
+  if (!currentAccount) {
+    redirect = {
+      destination: '/',
+      permanent: false,
+    }
   }
 
   return {
     props: {
       account: currentAccount,
-      ...(await serverSideTranslations(ctx.locale || 'ru', ['common', 'main', 'errors'])),
+      savedLocale: locale,
+      ...(await serverSideTranslations(locale, ['common', 'main', 'errors'])),
     },
+    redirect,
   }
 }

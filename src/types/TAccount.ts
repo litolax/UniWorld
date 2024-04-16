@@ -1,5 +1,6 @@
 import { ObjectID } from 'bson'
 import { ESex } from './ESex'
+import { ELanguage } from './ELanguage'
 
 export type TAccount = {
   _id: ObjectID
@@ -7,4 +8,5 @@ export type TAccount = {
   email: string
   password: string
   sex: ESex
+  locale: ELanguage
 }

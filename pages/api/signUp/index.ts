@@ -4,6 +4,7 @@ import { TAccount } from '../../../src/types/TAccount'
 import { ObjectID } from 'bson'
 import * as argon2 from 'argon2'
 import { ESex } from '../../../src/types/ESex'
+import { ELanguage } from '../../../src/types/ELanguage'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const requestBody = req.body
@@ -32,6 +33,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     username,
     sex,
     password: hashedPassword,
+    locale: ELanguage.RUSSIAN,
   }
 
   collection.insertOne(account)
