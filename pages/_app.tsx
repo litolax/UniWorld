@@ -5,20 +5,26 @@ import { SessionProvider } from 'next-auth/react'
 import { appWithTranslation } from 'next-i18next'
 import { createTheme, MantineProvider } from '@mantine/core'
 import { Notifications } from '@mantine/notifications'
+import { useContext } from 'react'
+import { observer } from 'mobx-react' // Импорт observer из mobx-react
+import { StoreContext } from '../src/stores/CombinedStores'
 
-const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
+const App = observer(({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
   const theme = createTheme({
     /** Put your mantine theme override here */
   })
+  const context = useContext(StoreContext)
 
   return (
     <MantineProvider theme={theme} defaultColorScheme={'dark'}>
-      <Notifications position={'bottom-right'} />
-      <SessionProvider session={session}>
-        <Component {...pageProps} />
-      </SessionProvider>
+      <StoreContext.Provider value={context}>
+        <Notifications position={'bottom-right'} />
+        <SessionProvider session={session}>
+          <Component {...pageProps} />
+        </SessionProvider>
+      </StoreContext.Provider>
     </MantineProvider>
   )
-}
+})
 
 export default appWithTranslation(App)
