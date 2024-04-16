@@ -1,0 +1,36 @@
+{
+  "ui": {
+    "views": {
+      "main": {
+        "title": "Main menu",
+        "tabs": {
+          "settings": "Настройки",
+          "profile": "Профиль",
+          "event": "Событие"
+        },
+        "sections": {
+          "profile": {},
+          "settings": {
+            "main": {
+              "title": "Основные",
+              "header": "Основные настройки",
+              "language": {
+                "title": "Выберите язык",
+                "placeholder": "Русский...",
+                "nothingFound": "Не найдено"
+              }
+            }
+          },
+          "event": {
+            "view": {
+              "title": "Просмотреть список"
+            },
+            "create": {
+              "title": "Создать"
+            }
+          }
+        }
+      }
+    }
+  }
+}
