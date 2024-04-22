@@ -6,7 +6,8 @@
     "allRights": "© 2024 UniWorld — Все права защищены."
   },
   "buttons": {
-    "signUp": "Зарегистрироваться",
-    "signIn": "Войти"
+    "signUp": "Sign Up",
+    "signIn": "Sign In",
+    "signOut": "Sign Out"
   }
 }
