@@ -53,6 +53,7 @@ export const uuidv4 = (): string => {
 }
 
 export const dataFix = (obj: any) => {
+  if (!obj) return
   const newObj: any = {}
   Object.keys(obj).forEach((key) => {
     let value = obj[key]

@@ -1,14 +1,17 @@
 import { Avatar, Paper, Title } from '@mantine/core'
-import { TAccount } from '../../src/types/TAccount'
 import { useTranslation } from 'next-i18next'
 import { ESex } from '../../src/types/ESex'
+import { useContext } from 'react'
+import { StoreContext } from '../../src/stores/CombinedStores'
 
 const mockName = 'John Doe'
 const mockEmail = 'JohnDoe@mail.me'
 
-export const Profile = (props: { account?: TAccount }): JSX.Element => {
+export const Profile = (): JSX.Element => {
   const { t } = useTranslation('main')
-  const avatarUrl = props.account?.sex === ESex.Male ? 'avatar-10.png' : 'avatar-8.png'
+  const context = useContext(StoreContext)
+  const account = context.accountStore.account
+  const avatarUrl = account?.sex === ESex.Male ? 'avatar-10.png' : 'avatar-8.png'
 
   return (
     <Paper
@@ -30,14 +33,13 @@ export const Profile = (props: { account?: TAccount }): JSX.Element => {
         mx='auto'
       />
       <Title ta='center' fw={500} mt='md' order={2}>
-        {t('common:username')}: {props.account?.username ?? mockName}
+        {t('common:username')}: {account?.username ?? mockName}
       </Title>
       <Title ta='center' fw={500} mt='md' order={3}>
-        {t('common:email')}: {props.account?.email ?? mockEmail}
+        {t('common:email')}: {account?.email ?? mockEmail}
       </Title>
       <Title ta='center' fw={500} mt='md' order={3}>
-        {t('common:sex.label')}:{' '}
-        {t(`common:sex.${props.account?.sex === ESex.Male ? 'male' : 'female'}`)}
+        {t('common:sex.label')}: {t(`common:sex.${account?.sex === ESex.Male ? 'male' : 'female'}`)}
       </Title>
     </Paper>
   )

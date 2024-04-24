@@ -6,7 +6,7 @@
         "tabs": {
           "settings": "Настройки",
           "profile": "Профиль",
-          "event": "Событие"
+          "event": "События"
         },
         "sections": {
           "profile": {},
@@ -27,7 +27,23 @@
               "title": "Просмотреть список"
             },
             "create": {
-              "title": "Создать"
+              "title": "Создать",
+              "header": "Создать событие",
+              "createdSuccessfully": "Событие успешно создано",
+              "fields": {
+                "names": {
+                  "title": "Название",
+                  "description": "Описание",
+                  "location": "Локация",
+                  "type": "Тип",
+                  "organized": "Организованное",
+                  "unplanned": "Не запланированное",
+                  "startDate": "Дата начала",
+                  "endDate": "Дата окончания",
+                  "eventDate": "Дата проведения"
+                }
+              },
+              "submit": "Создать событие"
             }
           }
         }
