@@ -1,13 +1,22 @@
 {
   "unauthorized": {
-    "title": "Вы не авторизованы",
-    "forAccess": "Вы не авторизованы для получения доступа к этой странице",
-    "description": "Вы не можете получить доступ к данному ресурсу, предварительно не пройдя авторизацию.\nДля получения доступа нажмите на кнопку ниже",
+    "title": "You are not authorized",
+    "forAccess": "You are not authorized to access this page",
+    "description": "You cannot access this resource without prior authorization.\nTo gain access, please click the button below",
     "loginWith": {
-      "google": "Авторизация через google"
+      "google": "Sign in with Google"
     }
   },
-  "pageDoesNotExist": "Страница, которую вы пытаетесь посетить - не существует",
-  "backHome": "Вернуться домой",
-  "somethingWentWrong": "Упс, что-то пошло не так"
+  "pageDoesNotExist": "The page you are trying to visit does not exist",
+  "backHome": "Back to Home",
+  "somethingWentWrong": "Oops, something went wrong",
+  "already": {
+    "accountExists": "An account with this email already exists"
+  },
+  "notFound": {
+    "account": {
+      "email": "Account with this email not found",
+      "password": "Incorrect password"
+    }
+  }
 }

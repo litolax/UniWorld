@@ -2,31 +2,48 @@
   "ui": {
     "views": {
       "main": {
-        "title": "Main menu",
+        "title": "Main Menu",
         "tabs": {
-          "settings": "Настройки",
-          "profile": "Профиль",
-          "event": "Событие"
+          "settings": "Settings",
+          "profile": "Profile",
+          "event": "Events"
         },
         "sections": {
           "profile": {},
           "settings": {
             "main": {
-              "title": "Основные",
-              "header": "Основные настройки",
+              "title": "Main",
+              "header": "Main Settings",
               "language": {
-                "title": "Выберите язык",
-                "placeholder": "Русский...",
-                "nothingFound": "Не найдено"
+                "title": "Select Language",
+                "placeholder": "English...",
+                "nothingFound": "Nothing found"
               }
-            }
+            },
+            "save": "Save Settings"
           },
           "event": {
             "view": {
-              "title": "Просмотреть список"
+              "title": "View List"
             },
             "create": {
-              "title": "Создать"
+              "title": "Create",
+              "header": "Create Event",
+              "createdSuccessfully": "Event created successfully",
+              "fields": {
+                "names": {
+                  "title": "Title",
+                  "description": "Description",
+                  "location": "Location",
+                  "type": "Type",
+                  "organized": "Organized",
+                  "unplanned": "Unplanned",
+                  "startDate": "Start Date",
+                  "endDate": "End Date",
+                  "eventDate": "Event Date"
+                }
+              },
+              "submit": "Create Event"
             }
           }
         }

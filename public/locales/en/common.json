@@ -3,11 +3,18 @@
     "companyName": "UniWorld"
   },
   "footer": {
-    "allRights": "© 2024 UniWorld — Все права защищены."
+    "allRights": "© 2024 UniWorld — All rights reserved."
   },
   "buttons": {
     "signUp": "Sign Up",
     "signIn": "Sign In",
     "signOut": "Sign Out"
+  },
+  "username": "Username",
+  "email": "Email",
+  "sex": {
+    "label": "Sex",
+    "male": "Male",
+    "female": "Female"
   }
 }
