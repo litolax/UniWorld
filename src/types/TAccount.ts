@@ -9,4 +9,6 @@ export type TAccount = {
   password: string
   sex: ESex
   locale: ELanguage
+  mFAEnabled: boolean
+  mfaSecret?: string
 }

@@ -51,6 +51,13 @@ export default function MainMenu(props: { account: TAccount; savedLocale: ELangu
             setCurrentPage(EMainViewPage.Settings)
           },
         },
+        {
+          title: 'ui.views.main.sections.settings.mfa.title',
+          click: () => {
+            setSettingsPage(ESettingPage.Mfa)
+            setCurrentPage(EMainViewPage.Settings)
+          },
+        },
       ],
     },
     {

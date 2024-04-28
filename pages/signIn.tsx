@@ -19,8 +19,23 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import { sendErrorNotification } from '../src/utils'
 import { signIn } from 'next-auth/react'
+import { useEffect } from 'react'
+import { Totp } from 'time2fa'
+import * as qrcode from 'qrcode'
 
 export default function SignIn() {
+  useEffect(() => {
+    const key = Totp.generateKey({ issuer: 'UniWorld', user: 'litolax' })
+
+    console.log(key)
+
+    qrcode.toDataURL(
+      `otpauth://totp/${key.issuer}:${key.user}?issuer=${key.issuer}&period=30&secret=${key.secret}`,
+      (err, url) => {
+        console.log(url) // Returns a Data URI containing a representation of the QR Code image.
+      },
+    )
+  }, [])
   const router = useRouter()
   const { t } = useTranslation('signIn')
   const form = useForm({
