@@ -36,13 +36,15 @@ export const MFA = (): JSX.Element => {
     if (state) {
       return (
         <>
-          <Button onClick={() => setDisableModalState(true)}>Выключить</Button>
+          <Button onClick={() => setDisableModalState(true)}>
+            {t('ui.views.main.sections.settings.mfa.disable')}
+          </Button>
         </>
       )
     } else {
       return (
         <>
-          <Button onClick={enable}>Включить</Button>
+          <Button onClick={enable}>{t('ui.views.main.sections.settings.mfa.enable')}</Button>
         </>
       )
     }
@@ -74,7 +76,10 @@ export const MFA = (): JSX.Element => {
     const result = (await response.json()).result as boolean
 
     if (!result) {
-      sendErrorNotification('Двухфакторная аутентификация', 'Код введен не верно')
+      sendErrorNotification(
+        t('ui.views.main.sections.settings.mfa.header'),
+        t<string>('ui.views.main.sections.settings.mfa.notifications.invalidCode'),
+      )
       return
     }
 
@@ -82,7 +87,10 @@ export const MFA = (): JSX.Element => {
     setQRCode('')
     setSubmitCode('')
 
-    sendSuccessNotification('Двухфакторная аутентификация', 'Успешно включена')
+    sendSuccessNotification(
+      t('ui.views.main.sections.settings.mfa.header'),
+      t<string>('ui.views.main.sections.settings.mfa.notifications.enabledSuccessfully'),
+    )
   }
 
   const disable = async () => {
@@ -98,14 +106,21 @@ export const MFA = (): JSX.Element => {
     const result = (await response.json()).result as boolean
 
     if (result) {
-      sendSuccessNotification('Двухфакторная аутентификация', 'Успешно отключена')
+      sendSuccessNotification(
+        t('ui.views.main.sections.settings.mfa.header'),
+        t<string>('ui.views.main.sections.settings.mfa.notifications.disabledSuccessfully'),
+      )
+
       setState(false)
       setDisableModalState(false)
       setQRCode('')
       setSubmitCode('')
       setPassword('')
     } else {
-      sendErrorNotification('Двухфакторная аутентификация', 'Пароль или код введены не верно')
+      sendErrorNotification(
+        t('ui.views.main.sections.settings.mfa.header'),
+        t<string>('ui.views.main.sections.settings.mfa.notifications.invalidPasswordOrCode'),
+      )
     }
   }
 
@@ -123,10 +138,14 @@ export const MFA = (): JSX.Element => {
       </Title>
 
       <Title order={4} mb={'1rem'}>
-        Состояние двухфакторной аутентификации:{' '}
+        {t('ui.views.main.sections.settings.mfa.mfaState.title')}:{' '}
         {
           <Badge variant='light' color={state ? 'green' : 'red'}>
-            {state ? 'Включена' : 'Выключена'}
+            {t(
+              state
+                ? 'ui.views.main.sections.settings.mfa.mfaState.enabled'
+                : 'ui.views.main.sections.settings.mfa.mfaState.disabled',
+            )}
           </Badge>
         }
       </Title>
@@ -139,7 +158,7 @@ export const MFA = (): JSX.Element => {
             }}
           >
             <Title order={5} mb={'0.5rem'}>
-              Отсканируйте QR код или введите код в приложении
+              {t('ui.views.main.sections.settings.mfa.scanQr')}
             </Title>
 
             <Flex direction={'column'} gap={'1rem'}>
@@ -155,7 +174,7 @@ export const MFA = (): JSX.Element => {
             }}
           >
             <Title order={5} mb={'0.5rem'}>
-              Введите 2FA код
+              {t('ui.views.main.sections.settings.mfa.enterCode')}
             </Title>
 
             <PinInput
@@ -167,8 +186,8 @@ export const MFA = (): JSX.Element => {
           </div>
 
           <Flex gap={'1rem'}>
-            <Button onClick={submit}>Подтвердить</Button>
-            <Button onClick={cancel}>Отменить</Button>
+            <Button onClick={submit}>{t('ui.views.main.sections.settings.mfa.submit')}</Button>
+            <Button onClick={cancel}>{t('ui.views.main.sections.settings.mfa.cancel')}</Button>
           </Flex>
         </>
       )}
@@ -178,18 +197,18 @@ export const MFA = (): JSX.Element => {
       <Modal
         opened={disableModalState}
         onClose={() => setDisableModalState(false)}
-        title='Выключение двухфакторной аутентификации'
+        title={t('ui.views.main.sections.settings.mfa.disablingMfa')}
       >
         <Flex direction={'column'} gap={'1rem'}>
           <PasswordInput
             required
-            label={'Пароль'}
+            label={t('ui.views.main.sections.settings.mfa.password')}
             value={password}
             onChange={(event) => setPassword(event.currentTarget.value)}
             radius='md'
           />
 
-          <Text>Введите 2FA код</Text>
+          <Text>{t('ui.views.main.sections.settings.mfa.enterCode')}</Text>
           <PinInput
             length={6}
             type='number'
@@ -197,7 +216,7 @@ export const MFA = (): JSX.Element => {
             onChange={(e) => setSubmitCode(e)}
           />
 
-          <Button onClick={disable}>Подтвердить</Button>
+          <Button onClick={disable}>{t('ui.views.main.sections.settings.mfa.submit')}</Button>
         </Flex>
       </Modal>
     </div>
