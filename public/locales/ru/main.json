@@ -22,7 +22,17 @@
             },
             "password": {
               "title": "Пароль",
-              "header": "Настройки пароля"
+              "header": "Настройки пароля",
+              "errors": {
+                "newPasswordTooLittle": "Новый пароль слишком короткий",
+                "newPasswordsMismatch": "Новые пароли не совпадают"
+              },
+              "successfullyChanged": "Пароль успешно изменен",
+              "changePassword": "Смена пароля",
+              "oldPassword": "Старый пароль",
+              "newPassword": "Новый пароль",
+              "repeatNewPassword": "Повторение нового пароля",
+              "changePasswordButton": "Изменить пароль"
             },
             "mfa": {
               "title": "2FA",

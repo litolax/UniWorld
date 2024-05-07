@@ -15,12 +15,16 @@ export const Password = (): JSX.Element => {
     const email = context.accountStore.account?.email
 
     if (newPassword.length < 6) {
-      sendErrorNotification('Новый пароль слишком короткий')
+      sendErrorNotification(
+        t('ui.views.main.sections.settings.password.errors.newPasswordTooLittle'),
+      )
       return
     }
 
     if (newPassword != repeatedNewPassword) {
-      sendErrorNotification('Новые пароли не совпадают')
+      sendErrorNotification(
+        t('ui.views.main.sections.settings.password.errors.newPasswordsMismatch'),
+      )
       return
     }
 
@@ -45,7 +49,7 @@ export const Password = (): JSX.Element => {
       }
     }
 
-    sendSuccessNotification('Пароль успешно изменен')
+    sendSuccessNotification(t('ui.views.main.sections.settings.password.successfullyChanged'))
     setOldPassword('')
     setNewPassword('')
     setRepeatedNewPassword('')
@@ -58,7 +62,7 @@ export const Password = (): JSX.Element => {
       </Title>
 
       <Title order={3} mb={'1rem'}>
-        {t('Смена пароля')}
+        {t('ui.views.main.sections.settings.password.changePassword')}
       </Title>
 
       <Flex
@@ -69,20 +73,22 @@ export const Password = (): JSX.Element => {
           marginBottom: '1rem',
         }}
       >
-        <Title order={5}>{t('Старый пароль')}</Title>
+        <Title order={5}>{t('ui.views.main.sections.settings.password.oldPassword')}</Title>
         <PasswordInput value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} />
 
-        <Title order={5}>{t('Новый пароль')}</Title>
+        <Title order={5}>{t('ui.views.main.sections.settings.password.newPassword')}</Title>
         <PasswordInput value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
 
-        <Title order={5}>{t('Повторение нового пароля')}</Title>
+        <Title order={5}>{t('ui.views.main.sections.settings.password.repeatNewPassword')}</Title>
         <PasswordInput
           value={repeatedNewPassword}
           onChange={(e) => setRepeatedNewPassword(e.target.value)}
         />
       </Flex>
 
-      <Button onClick={changePassword}>Изменить пароль</Button>
+      <Button onClick={changePassword}>
+        {t('ui.views.main.sections.settings.password.changePasswordButton')}
+      </Button>
     </div>
   )
 }
