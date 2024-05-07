@@ -25,7 +25,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const newPassword = generatePassword(10)
-  console.log('new password: ', newPassword)
 
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
