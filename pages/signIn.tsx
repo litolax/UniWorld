@@ -2,9 +2,12 @@ import {
   Anchor,
   Button,
   Container,
+  Flex,
   Group,
+  Modal,
   Paper,
   PasswordInput,
+  PinInput,
   Stack,
   TextInput,
   Title,
@@ -19,6 +22,8 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import { sendErrorNotification } from '../src/utils'
 import { signIn } from 'next-auth/react'
+import { useDisclosure } from '@mantine/hooks'
+import { useState } from 'react'
 
 export default function SignIn() {
   const router = useRouter()
@@ -33,6 +38,8 @@ export default function SignIn() {
       email: (val) => (/^\S+@\S+$/.test(val) ? null : t('fields.email.invalid')),
     },
   })
+  const [opened, { open, close }] = useDisclosure(false)
+  const [mfa, setMfa] = useState('')
 
   const signInAccount = async () => {
     const email = form.values.email
@@ -40,7 +47,7 @@ export default function SignIn() {
 
     const response = await fetch('/api/signIn', {
       method: 'POST',
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password, mfa }),
     })
 
     if (!response.ok) {
@@ -53,6 +60,10 @@ export default function SignIn() {
           sendErrorNotification(t('errors:notFound.account.password'))
           return
         }
+        case 410: {
+          sendErrorNotification(t('errors:invalid.mfaCode'))
+          return
+        }
         default: {
           throw new Error(response.statusText)
         }
@@ -63,6 +74,36 @@ export default function SignIn() {
 
     // redirect to main after sign Up
     router.push('/main')
+  }
+
+  const validateMfa = async () => {
+    const email = form.values.email
+
+    const response = await fetch('/api/account/hasMfa', {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+    })
+
+    if (!response.ok) {
+      switch (response.status) {
+        case 404: {
+          sendErrorNotification(t('errors:notFound.account.email'))
+          return
+        }
+        default: {
+          throw new Error(response.statusText)
+        }
+      }
+    }
+
+    const mFAEnabled = (await response.json()).mFAEnabled
+
+    if (mFAEnabled) {
+      open()
+    } else {
+      signInAccount()
+      close()
+    }
   }
 
   return (
@@ -79,7 +120,7 @@ export default function SignIn() {
           </Title>
 
           <Paper withBorder shadow='md' p={30} mt={30} radius='md'>
-            <form onSubmit={form.onSubmit(signInAccount)}>
+            <form onSubmit={form.onSubmit(validateMfa)}>
               <Stack>
                 <TextInput
                   required
@@ -120,6 +161,13 @@ export default function SignIn() {
         </Container>
       </div>
       <Footer />
+      <Modal opened={opened} onClose={close} title={t('mfaModalTitle')} centered>
+        <Flex direction={'column'} gap={'1rem'}>
+          <Title order={5}>{t('mfaCode')}</Title>
+          <PinInput length={6} type='number' value={mfa} onChange={(e) => setMfa(e)} />
+          <Button onClick={signInAccount}>{t('submit')}</Button>
+        </Flex>
+      </Modal>
     </div>
   )
 }
