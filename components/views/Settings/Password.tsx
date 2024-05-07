@@ -55,6 +55,33 @@ export const Password = (): JSX.Element => {
     setRepeatedNewPassword('')
   }
 
+  const resetPassword = async () => {
+    const email = context.accountStore.account?.email
+
+    const response = await fetch('/api/account/password/reset', {
+      method: 'POST',
+      body: JSON.stringify({
+        email,
+        subject: t('ui.views.main.sections.settings.password.reset.email.subject'),
+        text: t('ui.views.main.sections.settings.password.reset.email.text'),
+      }),
+    })
+
+    if (!response.ok) {
+      switch (response.status) {
+        case 404: {
+          sendErrorNotification(t('errors:notFound.account.email'))
+          return
+        }
+        default: {
+          throw new Error(response.statusText)
+        }
+      }
+    }
+
+    sendSuccessNotification(t('ui.views.main.sections.settings.password.reset.success'))
+  }
+
   return (
     <div>
       <Title order={1} mb={'1rem'}>
@@ -86,9 +113,15 @@ export const Password = (): JSX.Element => {
         />
       </Flex>
 
-      <Button onClick={changePassword}>
-        {t('ui.views.main.sections.settings.password.changePasswordButton')}
-      </Button>
+      <Flex gap={'1rem'}>
+        <Button onClick={changePassword}>
+          {t('ui.views.main.sections.settings.password.changePasswordButton')}
+        </Button>
+
+        <Button onClick={resetPassword}>
+          {t('ui.views.main.sections.settings.password.reset.button')}
+        </Button>
+      </Flex>
     </div>
   )
 }
