@@ -2,6 +2,7 @@ import { Button, Flex, PasswordInput, Title } from '@mantine/core'
 import { useTranslation } from 'next-i18next'
 import { useContext, useState } from 'react'
 import { StoreContext } from '../../../src/stores/CombinedStores'
+import { sendErrorNotification, sendSuccessNotification } from '../../../src/utils'
 
 export const Password = (): JSX.Element => {
   const context = useContext(StoreContext)
@@ -13,12 +14,41 @@ export const Password = (): JSX.Element => {
   const changePassword = async () => {
     const email = context.accountStore.account?.email
 
+    if (newPassword.length < 6) {
+      sendErrorNotification('Новый пароль слишком короткий')
+      return
+    }
+
+    if (newPassword != repeatedNewPassword) {
+      sendErrorNotification('Новые пароли не совпадают')
+      return
+    }
+
     const response = await fetch('/api/account/password/change', {
       method: 'POST',
       body: JSON.stringify({ email, oldPassword, newPassword }),
     })
 
-    if (!response.ok) throw new Error(response.statusText)
+    if (!response.ok) {
+      switch (response.status) {
+        case 404: {
+          sendErrorNotification(t('errors:notFound.account.email'))
+          return
+        }
+        case 409: {
+          sendErrorNotification(t('errors:notFound.account.password'))
+          return
+        }
+        default: {
+          throw new Error(response.statusText)
+        }
+      }
+    }
+
+    sendSuccessNotification('Пароль успешно изменен')
+    setOldPassword('')
+    setNewPassword('')
+    setRepeatedNewPassword('')
   }
 
   return (
@@ -27,8 +57,8 @@ export const Password = (): JSX.Element => {
         {t('ui.views.main.sections.settings.password.header')}
       </Title>
 
-      <Title order={4} mb={'1rem'}>
-        {t('Сменить пароль')}
+      <Title order={3} mb={'1rem'}>
+        {t('Смена пароля')}
       </Title>
 
       <Flex

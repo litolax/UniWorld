@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { connectToDatabase } from '../../../../../src/server/database'
+import { TAccount } from '../../../../../src/types/TAccount'
+import * as argon2 from 'argon2'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const requestBody = req.body
@@ -20,7 +22,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(404).json({})
   }
 
-  await collection.updateOne({ email }, { $set: { locale: locale as ELanguage } })
+  if (!(await argon2.verify(account.password, oldPassword))) {
+    return res.status(409).json({})
+  }
+
+  await collection.updateOne({ email }, { $set: { password: await argon2.hash(newPassword) } })
 
   return res.status(200).json({})
 }
