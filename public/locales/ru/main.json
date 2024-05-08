@@ -9,7 +9,11 @@
           "event": "События"
         },
         "sections": {
-          "profile": {},
+          "profile": {
+            "successfullyUpdated": "Данные профиля успешно обновлены",
+            "save": "Сохранить",
+            "editMode": "Режим редактирования"
+          },
           "settings": {
             "main": {
               "title": "Основные",
