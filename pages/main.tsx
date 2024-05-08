@@ -19,10 +19,12 @@ import { EEventPage } from '../src/types/EEventPage'
 import { Event } from '../components/views/Event/Event'
 import { ELanguage } from '../src/types/ELanguage'
 import { StoreContext } from '../src/stores/CombinedStores'
+import { useRouter } from 'next/navigation'
 
 export default function MainMenu(props: { account: TAccount; savedLocale: ELanguage }) {
   const { t } = useTranslation('main')
   const context = useContext(StoreContext)
+  const router = useRouter()
 
   useEffect(() => {
     context.accountStore.setAccount(props.account)
@@ -133,6 +135,11 @@ export default function MainMenu(props: { account: TAccount; savedLocale: ELangu
         <AppShell.Section>{t('ui.views.main.title')}</AppShell.Section>
         <AppShell.Section grow component={ScrollArea}>
           {mainViewTabs.map(createTabs)}
+          {props.account.admin && (
+            <Button fullWidth mt={'0.5rem'} mb={'0.5rem'} onClick={() => router.push('/admin')}>
+              {'Админ панель'}
+            </Button>
+          )}
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main

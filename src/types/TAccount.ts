@@ -11,4 +11,5 @@ export type TAccount = {
   locale: ELanguage
   mFAEnabled: boolean
   mfaSecret?: string
+  admin: boolean
 }

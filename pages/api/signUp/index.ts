@@ -35,6 +35,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     password: hashedPassword,
     locale: ELanguage.RUSSIAN,
     mFAEnabled: false,
+    admin: false,
   }
 
   collection.insertOne(account)
