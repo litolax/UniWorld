@@ -35,7 +35,7 @@ export const Create = (): JSX.Element => {
         title,
         description,
         location,
-        type,
+        type: +type,
         startDate,
         endDate,
         eventDate,
