@@ -11,6 +11,7 @@ import { TAccount } from '../src/types/TAccount'
 import { ESex } from '../src/types/ESex'
 import { TEvent } from '../src/types/TEvent'
 import { EEventType } from '../src/types/EEventType'
+import { authRedirect } from '../src/server/authRedirect'
 
 export default function Admin(props: {
   mans: number
@@ -93,6 +94,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const unplanned = events.length - organized
 
   return {
+    redirect: await authRedirect(ctx),
     props: {
       mans,
       womens,

@@ -4,7 +4,7 @@ export async function authRedirect(ctx: any) {
   const session = await getSession(ctx)
   if (!session)
     return {
-      destination: '/unauthorized',
+      destination: '/',
       permanent: false,
     }
   return undefined
