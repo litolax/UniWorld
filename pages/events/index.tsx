@@ -10,8 +10,10 @@ import { useState } from 'react'
 import { chunk, truncateText } from '../../src/utils'
 import { EEventType } from '../../src/types/EEventType'
 import { useRouter } from 'next/navigation'
+import { useTranslation } from 'next-i18next'
 
 export default function Events(props: { events: TEvent[] }) {
+  const { t } = useTranslation('events')
   const router = useRouter()
   const [activePage, setPage] = useState(1)
 
@@ -23,10 +25,12 @@ export default function Events(props: { events: TEvent[] }) {
       <Table.Td>{truncateText(event.title, 45)}</Table.Td>
       <Table.Td>{truncateText(event.location, 30)}</Table.Td>
       <Table.Td>
-        {event.type === EEventType.Organized ? 'Организованное' : 'Не запланированное'}
+        {event.type === EEventType.Organized
+          ? t('fields.types.organized')
+          : t('fields.types.unplanned')}
       </Table.Td>
       <Table.Td>
-        <Button onClick={() => router.push(`/events/${event._id}`)}>Open</Button>
+        <Button onClick={() => router.push(`/events/${event._id}`)}>{t('fields.open')}</Button>
       </Table.Td>
     </Table.Tr>
   ))
@@ -41,7 +45,7 @@ export default function Events(props: { events: TEvent[] }) {
       >
         <Container fluid>
           <Title order={1} mb={'10px'} ta='center'>
-            Events view
+            {t('title')}
           </Title>
 
           <Paper
@@ -63,11 +67,11 @@ export default function Events(props: { events: TEvent[] }) {
               <Table highlightOnHover withColumnBorders>
                 <Table.Thead>
                   <Table.Tr>
-                    <Table.Th>Created by</Table.Th>
-                    <Table.Th>Title</Table.Th>
-                    <Table.Th>Location</Table.Th>
-                    <Table.Th>Type</Table.Th>
-                    <Table.Th>Action</Table.Th>
+                    <Table.Th>{t('fields.createdBy')}</Table.Th>
+                    <Table.Th>{t('fields.title')}</Table.Th>
+                    <Table.Th>{t('fields.location')}</Table.Th>
+                    <Table.Th>{t('fields.type')}</Table.Th>
+                    <Table.Th>{t('fields.action')}</Table.Th>
                   </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>{rows}</Table.Tbody>
@@ -93,7 +97,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
     redirect: await authRedirect(ctx),
     props: {
       events,
-      ...(await serverSideTranslations(ctx.locale ?? 'ru', ['common', 'main', 'errors'])),
+      ...(await serverSideTranslations(ctx.locale ?? 'ru', ['events', 'main', 'common', 'errors'])),
     },
   }
 }
