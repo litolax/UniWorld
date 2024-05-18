@@ -3,7 +3,7 @@ import Footer from '../components/Footer'
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
-import { Container, Flex, Paper, Title } from '@mantine/core'
+import { Button, Container, Flex, Paper, Title } from '@mantine/core'
 import classes from '../styles/AuthenticationTitle.module.css'
 import { DonutChart } from '@mantine/charts'
 import { connectToDatabase } from '../src/server/database'
@@ -12,6 +12,7 @@ import { ESex } from '../src/types/ESex'
 import { TEvent } from '../src/types/TEvent'
 import { EEventType } from '../src/types/EEventType'
 import { authRedirect } from '../src/server/authRedirect'
+import { useRouter } from 'next/navigation'
 
 export default function Admin(props: {
   mans: number
@@ -20,6 +21,7 @@ export default function Admin(props: {
   unplanned: number
 }) {
   const { t } = useTranslation('admin')
+  const router = useRouter()
   const usersData = [
     { name: t('mans'), value: props.mans, color: 'indigo.6' },
     { name: t('women'), value: props.women, color: 'pink.6' },
@@ -61,16 +63,19 @@ export default function Admin(props: {
               justifyContent: 'center',
             }}
           >
-            <Flex gap={'10rem'} justify='center' align='center' direction='row'>
-              <Flex gap='xl' justify='center' align='center' direction='column'>
-                <Title order={3}>{t('accounts')}</Title>
-                <DonutChart withLabelsLine data={usersData} size={200} />
-              </Flex>
+            <Flex direction='column' gap={'2rem'}>
+              <Flex gap={'10rem'} justify='center' align='center' direction='row'>
+                <Flex gap='xl' justify='center' align='center' direction='column'>
+                  <Title order={3}>{t('accounts')}</Title>
+                  <DonutChart withLabelsLine data={usersData} size={200} />
+                </Flex>
 
-              <Flex gap='xl' justify='center' align='center' direction='column'>
-                <Title order={3}>{t('events')}</Title>
-                <DonutChart withLabelsLine data={eventsData} size={200} />
+                <Flex gap='xl' justify='center' align='center' direction='column'>
+                  <Title order={3}>{t('events')}</Title>
+                  <DonutChart withLabelsLine data={eventsData} size={200} />
+                </Flex>
               </Flex>
+              <Button onClick={() => router.push('/main')}>{t('gotoMain')}</Button>
             </Flex>
           </Paper>
         </Container>
