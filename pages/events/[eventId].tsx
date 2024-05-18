@@ -7,7 +7,7 @@ import { TEvent } from '../../src/types/TEvent'
 import { connectToDatabase } from '../../src/server/database'
 import { ObjectId } from 'bson'
 
-export default function Events(props: { event: TEvent }) {
+export default function Events() {
   return (
     <div>
       <Header />
