@@ -97,3 +97,11 @@ export const chunk = <T>(array: T[], size: number): T[][] => {
   const tail = array.slice(size)
   return [head, ...chunk(tail, size)]
 }
+
+export const truncateText = (text: string, maxLength: number) => {
+  if (text.length > maxLength) {
+    return text.substring(0, maxLength) + '...'
+  }
+
+  return text
+}
