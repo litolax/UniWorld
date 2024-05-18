@@ -3,7 +3,9 @@
     "companyName": "UniWorld"
   },
   "footer": {
-    "allRights": "© 2024 UniWorld — Все права защищены."
+    "allRights": "© 2024 UniWorld — Все права защищены.",
+    "feedback": "Отзывы",
+    "aboutUs": "О нас"
   },
   "buttons": {
     "signUp": "Зарегистрироваться",
