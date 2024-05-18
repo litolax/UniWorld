@@ -1,4 +1,5 @@
 import { notifications } from '@mantine/notifications'
+import { EEventType } from './types/EEventType'
 
 export const sendNotification = (
   title: string,
@@ -105,3 +106,6 @@ export const truncateText = (text: string, maxLength: number) => {
 
   return text
 }
+
+export const getStringFromEventType = (type: EEventType) =>
+  type === EEventType.Organized ? 'fields.types.organized' : 'fields.types.unplanned'
