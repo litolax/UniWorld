@@ -11,6 +11,7 @@
     "format": "prettier --write '{src,components,pages}/**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
   "dependencies": {
+    "@mantine/carousel": "^7.9.2",
     "@mantine/charts": "^7.9.1",
     "@mantine/core": "^7.6.2",
     "@mantine/dates": "^7.8.0",
@@ -23,6 +24,7 @@
     "argon2": "^0.40.1",
     "dayjs": "^1.11.10",
     "dotenv": "^16.0.3",
+    "embla-carousel-react": "^7.1.0",
     "eslint": "^8.57.0",
     "eslint-config-next": "^13.5.3",
     "eslint-config-prettier": "^9.1.0",
