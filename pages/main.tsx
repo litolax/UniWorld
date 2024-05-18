@@ -137,7 +137,7 @@ export default function MainMenu(props: { account: TAccount; savedLocale: ELangu
           {mainViewTabs.map(createTabs)}
           {props.account.admin && (
             <Button fullWidth mt={'0.5rem'} mb={'0.5rem'} onClick={() => router.push('/admin')}>
-              {'Админ панель'}
+              {t('admin:title')}
             </Button>
           )}
         </AppShell.Section>
@@ -181,7 +181,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
     props: {
       account: currentAccount,
       savedLocale: locale,
-      ...(await serverSideTranslations(locale, ['common', 'main', 'errors'])),
+      ...(await serverSideTranslations(locale, ['common', 'main', 'admin', 'errors'])),
     },
     redirect,
   }
