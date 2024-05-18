@@ -15,14 +15,14 @@ import { authRedirect } from '../src/server/authRedirect'
 
 export default function Admin(props: {
   mans: number
-  womens: number
+  women: number
   organized: number
   unplanned: number
 }) {
   const { t } = useTranslation('admin')
   const usersData = [
     { name: t('mans'), value: props.mans, color: 'indigo.6' },
-    { name: t('womens'), value: props.womens, color: 'pink.6' },
+    { name: t('women'), value: props.women, color: 'pink.6' },
   ]
 
   const eventsData = [
@@ -86,7 +86,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const accountsCollection = db.collection('accounts')
   const accounts = (await accountsCollection.find({}).toArray()) as TAccount[]
   const mans = accounts.filter((a) => a.sex === ESex.Male).length
-  const womens = accounts.length - mans
+  const women = accounts.length - mans
 
   const eventsCollection = db.collection('events')
   const events = (await eventsCollection.find({}).toArray()) as TEvent[]
@@ -97,7 +97,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     redirect: await authRedirect(ctx),
     props: {
       mans,
-      womens,
+      women,
       organized,
       unplanned,
       ...(await serverSideTranslations(ctx.locale || 'ru', ['admin', 'common', 'errors'])),
