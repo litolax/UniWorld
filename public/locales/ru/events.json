@@ -6,6 +6,7 @@
     "location": "Местоположение",
     "type": "Тип",
     "action": "Действие",
+    "description": "Описание",
     "types": {
       "organized": "Организованное",
       "unplanned": "Не запланированное"

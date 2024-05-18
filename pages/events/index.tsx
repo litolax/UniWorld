@@ -7,8 +7,7 @@ import { authRedirect } from '../../src/server/authRedirect'
 import { TEvent } from '../../src/types/TEvent'
 import { connectToDatabase } from '../../src/server/database'
 import { useState } from 'react'
-import { chunk, truncateText } from '../../src/utils'
-import { EEventType } from '../../src/types/EEventType'
+import { chunk, getStringFromEventType, truncateText } from '../../src/utils'
 import { useRouter } from 'next/navigation'
 import { useTranslation } from 'next-i18next'
 
@@ -24,11 +23,7 @@ export default function Events(props: { events: TEvent[] }) {
       <Table.Td>{truncateText(event.createdBy, 35)}</Table.Td>
       <Table.Td>{truncateText(event.title, 45)}</Table.Td>
       <Table.Td>{truncateText(event.location, 30)}</Table.Td>
-      <Table.Td>
-        {event.type === EEventType.Organized
-          ? t('fields.types.organized')
-          : t('fields.types.unplanned')}
-      </Table.Td>
+      <Table.Td>{t(getStringFromEventType(event.type))}</Table.Td>
       <Table.Td>
         <Button onClick={() => router.push(`/events/${event._id}`)}>{t('fields.open')}</Button>
       </Table.Td>
@@ -64,7 +59,7 @@ export default function Events(props: { events: TEvent[] }) {
             }}
           >
             <Flex direction={'column'} align={'center'}>
-              <Table highlightOnHover withColumnBorders>
+              <Table highlightOnHover>
                 <Table.Thead>
                   <Table.Tr>
                     <Table.Th>{t('fields.createdBy')}</Table.Th>
