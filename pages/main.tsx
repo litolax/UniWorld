@@ -76,8 +76,7 @@ export default function MainMenu(props: { account: TAccount; savedLocale: ELangu
         {
           title: 'ui.views.main.sections.event.view.title',
           click: () => {
-            setEventPage(EEventPage.View)
-            setCurrentPage(EMainViewPage.Event)
+            router.push('/events')
           },
         },
         {

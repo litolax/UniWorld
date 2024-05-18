@@ -126,6 +126,7 @@ export const Create = (): JSX.Element => {
                 />
                 <DateTimePicker
                   label={t('ui.views.main.sections.event.create.fields.names.endDate')}
+                  minDate={form.values.startDate}
                   onChange={(value) =>
                     form.setFieldValue(
                       'endDate',
