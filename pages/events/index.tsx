@@ -1,4 +1,14 @@
-import { Button, Container, Flex, Pagination, Paper, Table, Title, TextInput } from '@mantine/core'
+import {
+  Button,
+  Container,
+  Flex,
+  Pagination,
+  Paper,
+  Table,
+  Title,
+  TextInput,
+  Select,
+} from '@mantine/core'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
@@ -10,6 +20,8 @@ import { useState, useEffect } from 'react'
 import { chunk, getStringFromEventType, truncateText } from '../../src/utils'
 import { useRouter } from 'next/navigation'
 import { useTranslation } from 'next-i18next'
+import dayjs from 'dayjs'
+import { EEventType } from '../../src/types/EEventType'
 
 export default function Events(props: { events: TEvent[] }) {
   const defaultPage = 1
@@ -19,27 +31,46 @@ export default function Events(props: { events: TEvent[] }) {
   const [activePage, setPage] = useState(defaultPage)
   const [searchQuery, setSearchQuery] = useState('')
   const [filteredEvents, setFilteredEvents] = useState(props.events)
+  const [eventType, setEventType] = useState<string | null>(null)
+  const [sortOrder, setSortOrder] = useState<string | null>(null)
 
   useEffect(() => {
+    let events = props.events
+
     if (searchQuery) {
-      setFilteredEvents(
-        props.events.filter((event) =>
-          event.title.toLowerCase().includes(searchQuery.toLowerCase()),
-        ),
+      events = events.filter((event) =>
+        event.title.toLowerCase().includes(searchQuery.toLowerCase()),
       )
-    } else {
-      setFilteredEvents(props.events)
     }
+
+    if (eventType) {
+      events = events.filter((event) => event.type === +eventType)
+    }
+
+    if (sortOrder) {
+      events = [...events].sort((a, b) => {
+        if (sortOrder === 'asc') {
+          //todo eventDate / startDate / endDate
+          return new Date(a.eventDate!).getTime() - new Date(b.eventDate!).getTime()
+        } else {
+          return new Date(b.eventDate!).getTime() - new Date(a.eventDate!).getTime()
+        }
+      })
+    }
+
+    setFilteredEvents(events)
     setPage(defaultPage)
-  }, [searchQuery, props.events])
+  }, [searchQuery, eventType, sortOrder, props.events])
 
   const events = chunk(filteredEvents, 5)
 
+  //todo eventDate / startDate / endDate
   const rows = events[activePage - 1]?.map((event) => (
     <Table.Tr key={event._id.toString()}>
       <Table.Td>{truncateText(event.createdBy, 35)}</Table.Td>
       <Table.Td>{truncateText(event.title, 45)}</Table.Td>
       <Table.Td>{truncateText(event.location, 30)}</Table.Td>
+      <Table.Td>{dayjs(event.eventDate).format('YYYY-MM-DD HH:mm')}</Table.Td>
       <Table.Td>{t(getStringFromEventType(event.type))}</Table.Td>
       <Table.Td>
         <Button onClick={() => router.push(`/events/${event._id}`)}>{t('fields.open')}</Button>
@@ -77,6 +108,32 @@ export default function Events(props: { events: TEvent[] }) {
               onChange={(e) => setSearchQuery(e.target.value)}
               mb='md'
             />
+
+            <Title order={2} mb={'10px'} ta='center'>
+              Тип события
+            </Title>
+            <Select
+              data={[
+                { value: (EEventType.Organized as number).toString(), label: 'Организованное' },
+                { value: (EEventType.Unplanned as number).toString(), label: 'Не запланированное' },
+              ]}
+              value={eventType}
+              onChange={setEventType}
+              mb='md'
+            />
+
+            <Title order={2} mb={'10px'} ta='center'>
+              Порядок сортировки
+            </Title>
+            <Select
+              data={[
+                { value: 'asc', label: t('fields.sortAsc') },
+                { value: 'desc', label: t('fields.sortDesc') },
+              ]}
+              value={sortOrder}
+              onChange={setSortOrder}
+              mb='md'
+            />
           </Flex>
 
           <Paper
@@ -101,6 +158,7 @@ export default function Events(props: { events: TEvent[] }) {
                     <Table.Th>{t('fields.createdBy')}</Table.Th>
                     <Table.Th>{t('fields.title')}</Table.Th>
                     <Table.Th>{t('fields.location')}</Table.Th>
+                    <Table.Th>{t('fields.eventDate')}</Table.Th>
                     <Table.Th>{t('fields.type')}</Table.Th>
                     <Table.Th>{t('fields.action')}</Table.Th>
                   </Table.Tr>
