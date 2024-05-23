@@ -8,7 +8,6 @@ export default function Header() {
   const router = useRouter()
   const { t } = useTranslation()
   const session = useSession()
-  // const authorized = session.status === 'authenticated'
   const [authorized, setAuthorized] = useState(false)
 
   useEffect(() => {
@@ -26,6 +25,7 @@ export default function Header() {
     if (authorized) {
       return (
         <>
+          <Button onClick={() => router.push('/main')}>{t('buttons.mainMenu')}</Button>
           <Button onClick={signOutAccount}>{t('buttons.signOut')}</Button>
         </>
       )
