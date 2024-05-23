@@ -1,4 +1,4 @@
-import { Button, Flex, Title } from '@mantine/core'
+import { Button, Flex, Image } from '@mantine/core'
 import { useRouter } from 'next/navigation'
 import { useTranslation } from 'next-i18next'
 import { signOut, useSession } from 'next-auth/react'
@@ -47,9 +47,13 @@ export default function Header() {
     >
       <Flex gap={'30%'} align={'center'} justify={'center'} h={'7vh'}>
         <Flex gap='xl' justify='flex-end' align='center' direction='row' wrap='nowrap'>
-          <Title order={1} onClick={() => router.push('/')}>
-            {t('header.companyName')}
-          </Title>
+          <Image
+            src='/images/header_logo.png'
+            alt='UniWorld'
+            height={80}
+            style={{ paddingBottom: 10 }}
+            onClick={() => router.push('/')}
+          />
         </Flex>
         <Flex gap='xl' justify='flex-end' align='center' direction='row' wrap='nowrap'>
           {headerButtons()}
