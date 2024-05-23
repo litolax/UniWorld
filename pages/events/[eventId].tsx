@@ -6,13 +6,47 @@ import { authRedirect } from '../../src/server/authRedirect'
 import { TEvent } from '../../src/types/TEvent'
 import { connectToDatabase } from '../../src/server/database'
 import { ObjectId } from 'bson'
-import { Container, Flex, Paper, Text, Title } from '@mantine/core'
+import { Button, Container, Flex, Paper, Text, Title } from '@mantine/core'
 import { useTranslation } from 'next-i18next'
-import { getStringFromEventType } from '../../src/utils'
+import {
+  getStringFromEventType,
+  sendErrorNotification,
+  sendSuccessNotification,
+  truncateText,
+} from '../../src/utils'
+import { getSession } from 'next-auth/react'
+import { TAccount } from '../../src/types/TAccount'
+import { getAccountByEmail } from '../../src/server/account'
+import { useState } from 'react'
 
-export default function Events(props: { event: TEvent }) {
-  const { t } = useTranslation('events')
+export default function Events(props: { account: TAccount; event: TEvent }) {
   const event = props.event
+  const { t } = useTranslation('events')
+  const [responded, setResponded] = useState(event.participants.includes(props.account._id))
+
+  const respond = async () => {
+    const response = await fetch('/api/event/respond', {
+      method: 'POST',
+      body: JSON.stringify({ eventId: event._id, respondAccountId: props.account._id }),
+    })
+
+    if (!response.ok) {
+      switch (response.status) {
+        case 404: {
+          sendErrorNotification(t('errors:notFound.account.email'))
+          return
+        }
+        default: {
+          throw new Error(response.statusText)
+        }
+      }
+    }
+
+    event.participants.push(props.account._id)
+
+    setResponded(true)
+    sendSuccessNotification(t('respond.successfully', { name: truncateText(event.title, 35) }))
+  }
 
   return (
     <div>
@@ -36,6 +70,15 @@ export default function Events(props: { event: TEvent }) {
               <Text size={'1.5rem'}>
                 {t('fields.createdBy')}: {event.createdBy}
               </Text>
+              <Text size={'1.5rem'}>
+                {t('fields.respondedAccountsAmount', { amount: event.participants.length })}
+              </Text>
+
+              {event.createdBy != props.account.email && (
+                <Button w={'20rem'} onClick={respond} disabled={responded}>
+                  {t(!responded ? 'respond.buttons.respond' : 'respond.buttons.already')}
+                </Button>
+              )}
             </Flex>
           </Paper>
         </Container>
@@ -46,6 +89,7 @@ export default function Events(props: { event: TEvent }) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  const session = await getSession(ctx)
   const { db } = await connectToDatabase()
   const { eventId } = ctx.query
 
@@ -58,9 +102,18 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
     ),
   )
 
+  let currentAccount: TAccount | null = null
+
+  if (session && session.user?.email) {
+    currentAccount = JSON.parse(
+      JSON.stringify(await getAccountByEmail(session.user?.email)),
+    ) as TAccount
+  }
+
   return {
     redirect: await authRedirect(ctx),
     props: {
+      account: currentAccount,
       event,
       ...(await serverSideTranslations(ctx.locale ?? 'ru', ['events', 'common', 'main', 'errors'])),
     },
