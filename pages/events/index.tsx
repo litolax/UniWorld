@@ -1,4 +1,4 @@
-import { Button, Container, Flex, Pagination, Paper, Table, Title } from '@mantine/core'
+import { Button, Container, Flex, Pagination, Paper, Table, Title, TextInput } from '@mantine/core'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
@@ -6,19 +6,36 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { authRedirect } from '../../src/server/authRedirect'
 import { TEvent } from '../../src/types/TEvent'
 import { connectToDatabase } from '../../src/server/database'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { chunk, getStringFromEventType, truncateText } from '../../src/utils'
 import { useRouter } from 'next/navigation'
 import { useTranslation } from 'next-i18next'
 
 export default function Events(props: { events: TEvent[] }) {
+  const defaultPage = 1
+
   const { t } = useTranslation('events')
   const router = useRouter()
-  const [activePage, setPage] = useState(1)
+  const [activePage, setPage] = useState(defaultPage)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [filteredEvents, setFilteredEvents] = useState(props.events)
 
-  const events = chunk(props.events, 5)
+  useEffect(() => {
+    if (searchQuery) {
+      setFilteredEvents(
+        props.events.filter((event) =>
+          event.title.toLowerCase().includes(searchQuery.toLowerCase()),
+        ),
+      )
+    } else {
+      setFilteredEvents(props.events)
+    }
+    setPage(defaultPage)
+  }, [searchQuery, props.events])
 
-  const rows = events[activePage - 1].map((event) => (
+  const events = chunk(filteredEvents, 5)
+
+  const rows = events[activePage - 1]?.map((event) => (
     <Table.Tr key={event._id.toString()}>
       <Table.Td>{truncateText(event.createdBy, 35)}</Table.Td>
       <Table.Td>{truncateText(event.title, 45)}</Table.Td>
@@ -42,6 +59,25 @@ export default function Events(props: { events: TEvent[] }) {
           <Title order={1} mb={'10px'} ta='center'>
             {t('title')}
           </Title>
+
+          <Flex
+            direction={'column'}
+            w={'30rem'}
+            style={{
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            }}
+          >
+            <Title order={2} mb={'10px'} ta='center'>
+              {t('search')}
+            </Title>
+
+            <TextInput
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              mb='md'
+            />
+          </Flex>
 
           <Paper
             withBorder
