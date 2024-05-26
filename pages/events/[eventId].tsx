@@ -1,5 +1,3 @@
-import Header from '../../components/Header'
-import Footer from '../../components/Footer'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { authRedirect } from '../../src/server/authRedirect'
@@ -18,6 +16,7 @@ import { getSession } from 'next-auth/react'
 import { TAccount } from '../../src/types/TAccount'
 import { getAccountByEmail } from '../../src/server/account'
 import { useState } from 'react'
+import Wrapper from '../../components/Wrapper'
 
 export default function Events(props: { account: TAccount; event: TEvent }) {
   const event = props.event
@@ -49,8 +48,7 @@ export default function Events(props: { account: TAccount; event: TEvent }) {
   }
 
   return (
-    <div>
-      <Header />
+    <Wrapper>
       <div style={{ marginTop: '15vh' }}>
         <Container>
           <Title order={1} mb='10px' ta='center'>
@@ -83,8 +81,7 @@ export default function Events(props: { account: TAccount; event: TEvent }) {
           </Paper>
         </Container>
       </div>
-      <Footer />
-    </div>
+    </Wrapper>
   )
 }
 

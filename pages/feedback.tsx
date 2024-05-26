@@ -1,6 +1,4 @@
 import { GetServerSideProps } from 'next'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { Button, Flex, TextInput, Title } from '@mantine/core'
 import { Carousel } from '@mantine/carousel'
@@ -13,6 +11,7 @@ import { TAccount } from '../src/types/TAccount'
 import { getAccountByEmail } from '../src/server/account'
 import { authRedirect } from '../src/server/authRedirect'
 import { getSession } from 'next-auth/react'
+import Wrapper from '../components/Wrapper'
 
 export default function Feedback(props: { account: TAccount; feedbacks: TFeedback[] }) {
   const { t } = useTranslation('feedback')
@@ -61,8 +60,7 @@ export default function Feedback(props: { account: TAccount; feedbacks: TFeedbac
     setFeedbacks([...feedbacks, { content: feedback, createdBy: props.account.email } as TFeedback])
   }
   return (
-    <>
-      <Header />
+    <Wrapper>
       <Flex
         direction={'column'}
         ta='center'
@@ -105,8 +103,7 @@ export default function Feedback(props: { account: TAccount; feedbacks: TFeedbac
       >
         {feedbacksCarouselSlides}
       </Carousel>
-      <Footer />
-    </>
+    </Wrapper>
   )
 }
 

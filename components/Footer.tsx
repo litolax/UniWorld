@@ -20,13 +20,9 @@ export default function Footer() {
   return (
     <footer
       style={{
-        position: 'fixed',
-        bottom: '0',
-        left: '0',
         width: '100%',
         textAlign: 'center',
-        height: '25px',
-        marginBottom: '2rem',
+        height: '3rem',
       }}
     >
       <Divider mb={'sm'} />

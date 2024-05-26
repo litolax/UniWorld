@@ -1,5 +1,3 @@
-import Header from '../components/Header'
-import Footer from '../components/Footer'
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
@@ -13,6 +11,7 @@ import { TEvent } from '../src/types/TEvent'
 import { EEventType } from '../src/types/EEventType'
 import { authRedirect } from '../src/server/authRedirect'
 import { useRouter } from 'next/navigation'
+import Wrapper from '../components/Wrapper'
 
 export default function Admin(props: {
   mans: number
@@ -33,8 +32,7 @@ export default function Admin(props: {
   ]
 
   return (
-    <div>
-      <Header />
+    <Wrapper>
       <div
         style={{
           marginTop: '15vh',
@@ -80,8 +78,7 @@ export default function Admin(props: {
           </Paper>
         </Container>
       </div>
-      <Footer />
-    </div>
+    </Wrapper>
   )
 }
 

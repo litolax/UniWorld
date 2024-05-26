@@ -20,6 +20,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import { sendErrorNotification } from '../src/utils'
 import { getSexFromString } from '../src/types/ESex'
+import Wrapper from '../components/Wrapper'
 
 export default function SignUp() {
   const router = useRouter()
@@ -68,8 +69,7 @@ export default function SignUp() {
   }
 
   return (
-    <div>
-      <Header />
+    <Wrapper>
       <div
         style={{
           marginTop: '15vh',
@@ -146,8 +146,7 @@ export default function SignUp() {
           </Paper>
         </Container>
       </div>
-      <Footer />
-    </div>
+    </Wrapper>
   )
 }
 

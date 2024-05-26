@@ -13,8 +13,6 @@ import {
   Title,
 } from '@mantine/core'
 import classes from '../styles/AuthenticationTitle.module.css'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
 import { useRouter } from 'next/navigation'
 import { useForm } from '@mantine/form'
 import { GetServerSideProps } from 'next'
@@ -24,6 +22,7 @@ import { sendErrorNotification } from '../src/utils'
 import { signIn } from 'next-auth/react'
 import { useDisclosure } from '@mantine/hooks'
 import { useState } from 'react'
+import Wrapper from '../components/Wrapper'
 
 export default function SignIn() {
   const router = useRouter()
@@ -107,8 +106,7 @@ export default function SignIn() {
   }
 
   return (
-    <div>
-      <Header />
+    <Wrapper>
       <div
         style={{
           marginTop: '15vh',
@@ -160,7 +158,6 @@ export default function SignIn() {
           </Paper>
         </Container>
       </div>
-      <Footer />
       <Modal opened={opened} onClose={close} title={t('mfaModalTitle')} centered>
         <Flex direction={'column'} gap={'1rem'}>
           <Title order={5}>{t('mfaCode')}</Title>
@@ -168,7 +165,7 @@ export default function SignIn() {
           <Button onClick={signInAccount}>{t('submit')}</Button>
         </Flex>
       </Modal>
-    </div>
+    </Wrapper>
   )
 }
 

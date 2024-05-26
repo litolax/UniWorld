@@ -1,17 +1,15 @@
 import { GetServerSideProps } from 'next'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import { authRedirect } from '../src/server/authRedirect'
 import { Container, Paper, Text, Title } from '@mantine/core'
+import Wrapper from '../components/Wrapper'
 
 export default function About() {
   const { t } = useTranslation('feedback')
 
   return (
-    <div>
-      <Header />
+    <Wrapper>
       <Container
         style={{
           marginTop: '5rem',
@@ -27,8 +25,7 @@ export default function About() {
           <Text>{t('common:footer.aboutUsInfo.aboutUsContent')}</Text>
         </Paper>
       </Container>
-      <Footer />
-    </div>
+    </Wrapper>
   )
 }
 

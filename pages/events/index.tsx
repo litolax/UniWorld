@@ -9,8 +9,6 @@ import {
   TextInput,
   Select,
 } from '@mantine/core'
-import Header from '../../components/Header'
-import Footer from '../../components/Footer'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { authRedirect } from '../../src/server/authRedirect'
@@ -22,6 +20,7 @@ import { useRouter } from 'next/navigation'
 import { useTranslation } from 'next-i18next'
 import dayjs from 'dayjs'
 import { EEventType } from '../../src/types/EEventType'
+import Wrapper from '../../components/Wrapper'
 
 export default function Events(props: { events: TEvent[] }) {
   const defaultPage = 1
@@ -79,11 +78,11 @@ export default function Events(props: { events: TEvent[] }) {
   ))
 
   return (
-    <div>
-      <Header />
+    <Wrapper>
       <div
         style={{
           marginTop: '15vh',
+          marginBottom: '1vh',
         }}
       >
         <Container fluid>
@@ -171,8 +170,7 @@ export default function Events(props: { events: TEvent[] }) {
           </Paper>
         </Container>
       </div>
-      <Footer />
-    </div>
+    </Wrapper>
   )
 }
 
