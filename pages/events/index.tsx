@@ -4,17 +4,17 @@ import {
   Flex,
   Pagination,
   Paper,
-  Table,
-  Title,
-  TextInput,
   Select,
+  Table,
+  TextInput,
+  Title,
 } from '@mantine/core'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { authRedirect } from '../../src/server/authRedirect'
 import { TEvent } from '../../src/types/TEvent'
 import { connectToDatabase } from '../../src/server/database'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { chunk, getStringFromEventType, truncateText } from '../../src/utils'
 import { useRouter } from 'next/navigation'
 import { useTranslation } from 'next-i18next'
@@ -48,11 +48,13 @@ export default function Events(props: { events: TEvent[] }) {
 
     if (sortOrder) {
       events = [...events].sort((a, b) => {
+        const dateA = getEventDate(a)
+        const dateB = getEventDate(b)
+
         if (sortOrder === 'asc') {
-          //todo eventDate / startDate / endDate
-          return new Date(a.eventDate!).getTime() - new Date(b.eventDate!).getTime()
+          return dateA.getTime() - dateB.getTime()
         } else {
-          return new Date(b.eventDate!).getTime() - new Date(a.eventDate!).getTime()
+          return dateB.getTime() - dateA.getTime()
         }
       })
     }
@@ -63,75 +65,84 @@ export default function Events(props: { events: TEvent[] }) {
 
   const events = chunk(filteredEvents, 5)
 
-  //todo eventDate / startDate / endDate
-  const rows = events[activePage - 1]?.map((event) => (
-    <Table.Tr key={event._id.toString()}>
-      <Table.Td>{truncateText(event.createdBy, 35)}</Table.Td>
-      <Table.Td>{truncateText(event.title, 45)}</Table.Td>
-      <Table.Td>{truncateText(event.location, 30)}</Table.Td>
-      <Table.Td>{dayjs(event.eventDate).format('YYYY-MM-DD HH:mm')}</Table.Td>
-      <Table.Td>{t(getStringFromEventType(event.type))}</Table.Td>
-      <Table.Td>
-        <Button onClick={() => router.push(`/events/${event._id}`)}>{t('fields.open')}</Button>
-      </Table.Td>
-    </Table.Tr>
-  ))
+  const rows = events[activePage - 1]?.map((e) => {
+    const eventHumanDate =
+      e.type === EEventType.Organized
+        ? `${dayjs(e.startDate).format('YYYY-MM-DD')} - ${dayjs(e.endDate).format('YYYY-MM-DD')}`
+        : `${dayjs(e.eventDate).format('YYYY-MM-DD HH:mm')}`
+
+    return (
+      <Table.Tr key={e._id.toString()}>
+        <Table.Td>{truncateText(e.createdBy, 35)}</Table.Td>
+        <Table.Td>{truncateText(e.title, 40)}</Table.Td>
+        <Table.Td>{truncateText(e.location, 30)}</Table.Td>
+        <Table.Td>{eventHumanDate}</Table.Td>
+        <Table.Td>{t(getStringFromEventType(e.type))}</Table.Td>
+        <Table.Td>
+          <Button onClick={() => router.push(`/events/${e._id}`)}>{t('fields.open')}</Button>
+        </Table.Td>
+      </Table.Tr>
+    )
+  })
+
+  function getEventDate(event: TEvent): Date {
+    if (event.type === EEventType.Organized) {
+      return new Date(event.startDate ?? 0)
+    } else {
+      return new Date(event.eventDate ?? 0)
+    }
+  }
 
   return (
     <Wrapper>
       <div
         style={{
-          marginTop: '15vh',
+          marginTop: '8vh',
           marginBottom: '1vh',
         }}
       >
         <Container fluid>
-          <Title order={1} mb={'10px'} ta='center'>
+          <Title order={1} mb={'xl'} ta={'center'}>
             {t('title')}
           </Title>
 
-          <Flex
-            direction={'column'}
-            w={'30rem'}
-            style={{
-              marginLeft: 'auto',
-              marginRight: 'auto',
-            }}
-          >
-            <Title order={2} mb={'10px'} ta='center'>
-              {t('search')}
-            </Title>
-
+          <Flex direction={'row'} ta={'center'} gap={'xl'} justify={'center'} align={'center'}>
             <TextInput
+              label={t('search')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               mb='md'
+              size='md'
             />
 
-            <Title order={2} mb={'10px'} ta='center'>
-              Тип события
-            </Title>
             <Select
+              label={t('fields.type')}
               data={[
-                { value: (EEventType.Organized as number).toString(), label: 'Организованное' },
-                { value: (EEventType.Unplanned as number).toString(), label: 'Не запланированное' },
+                {
+                  value: (EEventType.Organized as number).toString(),
+                  label: t('fields.types.organized'),
+                },
+                {
+                  value: (EEventType.Unplanned as number).toString(),
+                  label: t('fields.types.unplanned'),
+                },
               ]}
               value={eventType}
               onChange={setEventType}
               mb='md'
+              size='md'
             />
 
-            <Title order={2} mb={'10px'} ta='center'>
-              Порядок сортировки
-            </Title>
             <Select
+              label={t('fields.sort.order')}
               data={[
-                { value: 'asc', label: t('fields.sortAsc') },
-                { value: 'desc', label: t('fields.sortDesc') },
+                { value: 'asc', label: t('fields.sort.asc') },
+                { value: 'desc', label: t('fields.sort.desc') },
               ]}
               value={sortOrder}
               onChange={setSortOrder}
               mb='md'
+              size='md'
             />
           </Flex>
 

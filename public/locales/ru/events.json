@@ -5,15 +5,21 @@
     "createdBy": "Создатель",
     "title": "Название",
     "location": "Местоположение",
-    "type": "Тип",
+    "type": "Тип события",
     "action": "Действие",
     "description": "Описание",
     "types": {
       "organized": "Организованное",
       "unplanned": "Не запланированное"
     },
+    "sort": {
+      "order": "Порядок сортировки",
+      "asc": "По возрастанию",
+      "desc": "По убыванию"
+    },
     "respondedAccountsAmount": "Пользователей откликнулось: {{amount}}",
-    "open": "Открыть"
+    "open": "Открыть",
+    "eventDate": "Дата проведения"
   },
   "respond": {
     "buttons": {
