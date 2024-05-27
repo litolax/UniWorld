@@ -176,14 +176,10 @@ export default function Events(props: { events: TEvent[] }) {
                 <Table.Tbody>{rows}</Table.Tbody>
               </Table>
 
-              <Pagination
-                total={events.length}
-                value={activePage}
-                onChange={setPage}
-                mt={'sm'}
-                mb={'lg'}
-              />
-              <Button onClick={() => router.push('/main')}>{t('gotoMain')}</Button>
+              <Pagination total={events.length} value={activePage} onChange={setPage} mt={'sm'} />
+              <Button onClick={() => router.push('/main')} mt={'lg'}>
+                {t('gotoMain')}
+              </Button>
             </Flex>
           </Paper>
         </Container>
