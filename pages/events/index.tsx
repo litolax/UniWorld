@@ -103,7 +103,7 @@ export default function Events(props: { events: TEvent[] }) {
       >
         <Container fluid>
           <Title order={1} mb={'xl'} ta={'center'}>
-            {t('title')}
+            {t('eventsTitle')}
           </Title>
 
           <Flex direction={'row'} ta={'center'} gap={'xl'} justify={'center'} align={'center'}>

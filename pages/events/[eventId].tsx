@@ -60,7 +60,7 @@ export default function Events(props: { account: TAccount; event: TEvent }) {
       <div style={{ marginTop: '15vh' }}>
         <Container>
           <Title order={1} mb='10px' ta='center'>
-            Событие: {event.title}
+            {t('eventTitle')}: {event.title}
           </Title>
           <Paper withBorder shadow='md' p={30} radius='md'>
             <Flex direction={'column'} gap={'1rem'}>

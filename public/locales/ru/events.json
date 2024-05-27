@@ -1,5 +1,6 @@
 {
-  "title": "События",
+  "eventsTitle": "События",
+  "eventTitle": "Событие",
   "search": "Поиск",
   "fields": {
     "createdBy": "Создатель",
