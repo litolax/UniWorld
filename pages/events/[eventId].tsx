@@ -57,7 +57,7 @@ export default function Events(props: { account: TAccount; event: TEvent }) {
 
   return (
     <Wrapper>
-      <div style={{ marginTop: '15vh' }}>
+      <div style={{ marginTop: '8vh' }}>
         <Container>
           <Title order={1} mb='10px' ta='center' style={{ wordBreak: 'break-word' }}>
             {t('eventTitle')}: {event.title}
