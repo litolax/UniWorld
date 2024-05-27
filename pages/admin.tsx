@@ -1,17 +1,22 @@
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
-import { Button, Container, Flex, Paper, Title } from '@mantine/core'
-import classes from '../styles/AuthenticationTitle.module.css'
-import { DonutChart } from '@mantine/charts'
+import { Accordion, AppShell, Button, Flex, ScrollArea } from '@mantine/core'
+import { authRedirect } from '../src/server/authRedirect'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
+import { TMainViewTab } from '../src/types/TMainViewTab'
+import { EMainViewTabType } from '../src/types/EMainViewTabType'
+import { useState } from 'react'
+import { EAdminViewPage } from '../src/types/EAdminViewPage'
+import Stats from '../components/views/Stats/Stats'
 import { connectToDatabase } from '../src/server/database'
 import { TAccount } from '../src/types/TAccount'
 import { ESex } from '../src/types/ESex'
 import { TEvent } from '../src/types/TEvent'
 import { EEventType } from '../src/types/EEventType'
-import { authRedirect } from '../src/server/authRedirect'
-import { useRouter } from 'next/navigation'
-import Wrapper from '../components/Wrapper'
+import { EModerationPage } from '../src/types/EModerationPage'
+import { Moderation } from '../components/views/Moderation/Moderation'
 
 export default function Admin(props: {
   mans: number
@@ -20,65 +25,113 @@ export default function Admin(props: {
   unplanned: number
 }) {
   const { t } = useTranslation('admin')
-  const router = useRouter()
-  const usersData = [
-    { name: t('mans'), value: props.mans, color: 'indigo.6' },
-    { name: t('women'), value: props.women, color: 'pink.6' },
+  const [currentPage, setCurrentPage] = useState(EAdminViewPage.None)
+  const [moderationPage, setModerationPage] = useState(EModerationPage.None)
+
+  const adminViewTabs: TMainViewTab[] = [
+    {
+      type: EMainViewTabType.Button,
+      name: 'stats',
+      onClick: () => {
+        setCurrentPage(EAdminViewPage.Stats)
+      },
+      sections: [],
+    },
+    {
+      type: EMainViewTabType.Accordion,
+      name: 'moderation.title',
+      sections: [
+        {
+          title: 'moderation.feedbacks',
+          click: () => {
+            setModerationPage(EModerationPage.Feedbacks)
+            setCurrentPage(EAdminViewPage.Moderation)
+          },
+        },
+        {
+          title: 'moderation.accounts',
+          click: () => {
+            setModerationPage(EModerationPage.Accounts)
+            setCurrentPage(EAdminViewPage.Moderation)
+          },
+        },
+        {
+          title: 'moderation.events',
+          click: () => {
+            setModerationPage(EModerationPage.Events)
+            setCurrentPage(EAdminViewPage.Moderation)
+          },
+        },
+      ],
+    },
   ]
 
-  const eventsData = [
-    { name: t('organized'), value: props.organized, color: 'indigo.6' },
-    { name: t('unplanned'), value: props.unplanned, color: 'pink.6' },
-  ]
+  const createTabs = (tab: TMainViewTab, index: number) => {
+    let component
+    switch (tab.type) {
+      case EMainViewTabType.Accordion: {
+        component = (
+          <Accordion key={index}>
+            <Accordion.Item key={index} value={index.toString()}>
+              <Accordion.Control>{t(tab.name)}</Accordion.Control>
+              <Accordion.Panel>
+                <Flex direction='column' gap={'1rem'} mt={'0.5rem'}>
+                  {tab.sections?.map((section, i: number) => (
+                    <Button onClick={section.click} key={i}>
+                      {t(section.title)}
+                    </Button>
+                  ))}
+                </Flex>
+              </Accordion.Panel>
+            </Accordion.Item>
+          </Accordion>
+        )
+        break
+      }
+      case EMainViewTabType.Button: {
+        component = (
+          <Button fullWidth mt={'0.5rem'} mb={'0.5rem'} onClick={tab.onClick}>
+            {t(tab.name)}
+          </Button>
+        )
+        break
+      }
+    }
+
+    return component
+  }
 
   return (
-    <Wrapper>
-      <div
+    <AppShell header={{ height: '7vh' }} navbar={{ width: 300, breakpoint: 'sm' }} padding='md'>
+      <AppShell.Header>
+        <Header />
+      </AppShell.Header>
+      <AppShell.Navbar p='md'>
+        <AppShell.Section>{t('title')}</AppShell.Section>
+        <AppShell.Section grow component={ScrollArea}>
+          {adminViewTabs.map(createTabs)}
+        </AppShell.Section>
+      </AppShell.Navbar>
+      <AppShell.Main
         style={{
-          marginTop: '15vh',
+          height: '100vh',
+          backgroundColor: 'rgb(36, 36, 36)',
         }}
       >
-        <Container>
-          <Title ta='center' className={classes.title}>
-            {t('title')}
-          </Title>
-
-          <br />
-
-          <Title order={2} ta='center'>
-            {t('statistics')}
-          </Title>
-
-          <Paper
-            withBorder
-            shadow='md'
-            p={30}
-            mt={30}
-            radius='md'
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Flex direction='column' gap={'2rem'}>
-              <Flex gap={'10rem'} justify='center' align='center' direction='row'>
-                <Flex gap='xl' justify='center' align='center' direction='column'>
-                  <Title order={3}>{t('accounts')}</Title>
-                  <DonutChart withLabelsLine data={usersData} size={200} />
-                </Flex>
-
-                <Flex gap='xl' justify='center' align='center' direction='column'>
-                  <Title order={3}>{t('events')}</Title>
-                  <DonutChart withLabelsLine data={eventsData} size={200} />
-                </Flex>
-              </Flex>
-              <Button onClick={() => router.push('/main')}>{t('gotoMain')}</Button>
-            </Flex>
-          </Paper>
-        </Container>
-      </div>
-    </Wrapper>
+        {currentPage === EAdminViewPage.Stats && (
+          <Stats
+            mans={props.mans}
+            women={props.women}
+            organized={props.organized}
+            unplanned={props.unplanned}
+          />
+        )}
+        {currentPage === EAdminViewPage.Moderation && <Moderation currentPage={moderationPage} />}
+      </AppShell.Main>
+      <AppShell.Footer>
+        <Footer />
+      </AppShell.Footer>
+    </AppShell>
   )
 }
 
