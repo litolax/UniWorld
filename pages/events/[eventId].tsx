@@ -59,12 +59,12 @@ export default function Events(props: { account: TAccount; event: TEvent }) {
     <Wrapper>
       <div style={{ marginTop: '15vh' }}>
         <Container>
-          <Title order={1} mb='10px' ta='center'>
+          <Title order={1} mb='10px' ta='center' style={{ wordBreak: 'break-word' }}>
             {t('eventTitle')}: {event.title}
           </Title>
-          <Paper withBorder shadow='md' p={30} radius='md'>
-            <Flex direction={'column'} gap={'1rem'}>
-              <Text size={'xl'} truncate='end'>
+          <Paper withBorder shadow='md' p={30} radius='md' mb={'xl'}>
+            <Flex direction={'column'} gap={'1rem'} style={{ wordBreak: 'break-word' }}>
+              <Text size={'xl'}>
                 {t('fields.description')}: {event.description}
               </Text>
               <Text size={'xl'}>
