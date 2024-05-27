@@ -17,12 +17,14 @@ import { TEvent } from '../src/types/TEvent'
 import { EEventType } from '../src/types/EEventType'
 import { EModerationPage } from '../src/types/EModerationPage'
 import { Moderation } from '../components/views/Moderation/Moderation'
+import { TFeedback } from '../src/types/TFeedback'
 
 export default function Admin(props: {
   mans: number
   women: number
   organized: number
   unplanned: number
+  feedbacks: TFeedback[]
 }) {
   const { t } = useTranslation('admin')
   const [currentPage, setCurrentPage] = useState(EAdminViewPage.None)
@@ -126,7 +128,9 @@ export default function Admin(props: {
             unplanned={props.unplanned}
           />
         )}
-        {currentPage === EAdminViewPage.Moderation && <Moderation currentPage={moderationPage} />}
+        {currentPage === EAdminViewPage.Moderation && (
+          <Moderation currentPage={moderationPage} feedbacks={props.feedbacks} />
+        )}
       </AppShell.Main>
       <AppShell.Footer>
         <Footer />
@@ -148,6 +152,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const organized = events.filter((e) => e.type === EEventType.Organized).length
   const unplanned = events.length - organized
 
+  const feedbacksCollection = db.collection('feedbacks')
+  const feedbacks = JSON.parse(
+    JSON.stringify((await feedbacksCollection.find({}).toArray()) as TFeedback[]),
+  )
+
   return {
     redirect: await authRedirect(ctx),
     props: {
@@ -155,6 +164,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       women,
       organized,
       unplanned,
+      feedbacks,
       ...(await serverSideTranslations(ctx.locale || 'ru', ['admin', 'common', 'errors'])),
     },
   }

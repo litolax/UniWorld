@@ -1,5 +1,5 @@
 import { Button, Select, Title } from '@mantine/core'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { useTranslation } from 'next-i18next'
 import { ELanguage } from '../../../src/types/ELanguage'
 import { useRouter } from 'next/router'
@@ -15,15 +15,8 @@ export const Main = (): JSX.Element => {
     { value: 'en', label: 'English' },
   ]
   const router = useRouter()
-  // const { pathname, asPath, query } = router
 
   const { t } = useTranslation('main')
-
-  useEffect(() => {
-    if (!account) {
-      router.push('/')
-    }
-  }, [account])
 
   const selectLanguage = async (newLanguage: string | null) => {
     newLanguage = newLanguage ?? 'ru'

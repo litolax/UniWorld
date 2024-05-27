@@ -7,7 +7,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const requestBody = req.body
 
   const { db } = await connectToDatabase()
-  const collection = await db.collection('feedback')
+  const collection = await db.collection('feedbacks')
 
   if (req.method === 'POST') {
     if (!requestBody) return res.json({})

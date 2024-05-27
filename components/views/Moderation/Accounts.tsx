@@ -1,5 +1,5 @@
 export const Accounts = (): JSX.Element => {
-  return <div>Test</div>
+  return <div>Test Accounts</div>
 }
 
 export default Accounts

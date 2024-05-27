@@ -117,7 +117,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     account = dataFix(await getAccountByEmail(session.user?.email)) as TAccount
   }
 
-  const feedbacksCollection = db.collection('feedback')
+  const feedbacksCollection = db.collection('feedbacks')
   const feedbacks = JSON.parse(
     JSON.stringify((await feedbacksCollection.find({}).toArray()) as TFeedback[]),
   )

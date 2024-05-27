@@ -1,5 +1,5 @@
 export const Events = (): JSX.Element => {
-  return <div>Test</div>
+  return <div>Test Events</div>
 }
 
 export default Events
