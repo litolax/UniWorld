@@ -17,11 +17,19 @@ import { TAccount } from '../../src/types/TAccount'
 import { getAccountByEmail } from '../../src/server/account'
 import { useState } from 'react'
 import Wrapper from '../../components/Wrapper'
+import { EEventType } from '../../src/types/EEventType'
+import dayjs from 'dayjs'
+import { useRouter } from 'next/navigation'
 
 export default function Events(props: { account: TAccount; event: TEvent }) {
   const event = props.event
   const { t } = useTranslation('events')
+  const router = useRouter()
   const [responded, setResponded] = useState(event.participants.includes(props.account._id))
+  const eventHumanDate =
+    props.event.type === EEventType.Organized
+      ? `${dayjs(props.event.startDate).format('YYYY-MM-DD')} - ${dayjs(props.event.endDate).format('YYYY-MM-DD')}`
+      : `${dayjs(props.event.eventDate).format('YYYY-MM-DD HH:mm')}`
 
   const respond = async () => {
     const response = await fetch('/api/event/respond', {
@@ -56,19 +64,22 @@ export default function Events(props: { account: TAccount; event: TEvent }) {
           </Title>
           <Paper withBorder shadow='md' p={30} radius='md'>
             <Flex direction={'column'} gap={'1rem'}>
-              <Text size={'1.5rem'}>
+              <Text size={'xl'} truncate='end'>
                 {t('fields.description')}: {event.description}
               </Text>
-              <Text size={'1.5rem'}>
+              <Text size={'xl'}>
                 {t('fields.location')}: {event.location}
               </Text>
-              <Text size={'1.5rem'}>
+              <Text size={'xl'}>
                 {t('fields.type')}: {t(getStringFromEventType(event.type))}
               </Text>
-              <Text size={'1.5rem'}>
+              <Text size={'xl'}>
                 {t('fields.createdBy')}: {event.createdBy}
               </Text>
-              <Text size={'1.5rem'}>
+              <Text size={'xl'}>
+                {t('fields.eventDate')}: {eventHumanDate}
+              </Text>
+              <Text size={'xl'}>
                 {t('fields.respondedAccountsAmount', { amount: event.participants.length })}
               </Text>
 
@@ -77,6 +88,12 @@ export default function Events(props: { account: TAccount; event: TEvent }) {
                   {t(!responded ? 'respond.buttons.respond' : 'respond.buttons.already')}
                 </Button>
               )}
+              <Button w={'20rem'} onClick={() => router.push('/events')}>
+                {t('goBack')}
+              </Button>
+              <Button w={'20rem'} onClick={() => router.push('/main')}>
+                {t('gotoMain')}
+              </Button>
             </Flex>
           </Paper>
         </Container>
