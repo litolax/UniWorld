@@ -4,11 +4,9 @@ import { DateInput, DateTimePicker } from '@mantine/dates'
 import { useForm } from '@mantine/form'
 import { EEventType } from '../../../src/types/EEventType'
 import { sendSuccessNotification } from '../../../src/utils'
-import { useContext } from 'react'
-import { StoreContext } from '../../../src/stores/CombinedStores'
+import { TAccount } from '../../../src/types/TAccount'
 
-export const Create = (): JSX.Element => {
-  const context = useContext(StoreContext)
+export const Create = (props: { account: TAccount }): JSX.Element => {
   const form = useForm({
     initialValues: {
       title: '',
@@ -31,7 +29,7 @@ export const Create = (): JSX.Element => {
     const response = await fetch('/api/event', {
       method: 'POST',
       body: JSON.stringify({
-        createdBy: context.accountStore.account?.email,
+        createdBy: props.account?.email,
         title,
         description,
         location,

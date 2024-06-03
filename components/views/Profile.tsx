@@ -1,28 +1,26 @@
 import { Avatar, Button, Group, Input, Paper, Radio, Title } from '@mantine/core'
 import { useTranslation } from 'next-i18next'
 import { ESex } from '../../src/types/ESex'
-import { useContext, useState } from 'react'
-import { StoreContext } from '../../src/stores/CombinedStores'
+import { useState } from 'react'
 import { sendErrorNotification, sendSuccessNotification } from '../../src/utils'
+import { TAccount } from '../../src/types/TAccount'
 
 const mockName = 'John Doe'
 const mockEmail = 'JohnDoe@mail.me'
 
-export const Profile = (): JSX.Element => {
+export const Profile = (props: { account: TAccount }): JSX.Element => {
   const { t } = useTranslation('main')
-  const context = useContext(StoreContext)
-  const account = context.accountStore.account
 
   const [editorMode, setEditorMode] = useState(false)
-  const [username, setUsername] = useState(account?.username)
-  const [sex, setSex] = useState(account?.sex)
+  const [username, setUsername] = useState(props.account?.username)
+  const [sex, setSex] = useState(props.account?.sex)
 
   const avatarUrl = sex === ESex.Male ? 'avatar-10.png' : 'avatar-8.png'
 
   const updateProfile = async () => {
     const response = await fetch('/api/account/updateProfile', {
       method: 'POST',
-      body: JSON.stringify({ email: account?.email, username, sex }),
+      body: JSON.stringify({ email: props.account?.email, username, sex }),
     })
 
     if (!response.ok) {
@@ -107,7 +105,7 @@ export const Profile = (): JSX.Element => {
             {t('common:username')}: {username ?? mockName}
           </Title>
           <Title ta='center' fw={500} mt='md' order={3}>
-            {t('common:email')}: {account?.email ?? mockEmail}
+            {t('common:email')}: {props.account?.email ?? mockEmail}
           </Title>
           <Title ta='center' fw={500} mt='md' order={3}>
             {t('common:sex.label')}: {t(`common:sex.${sex === ESex.Male ? 'male' : 'female'}`)}
