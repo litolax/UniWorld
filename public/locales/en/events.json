@@ -1,0 +1,34 @@
+{
+  "eventsTitle": "Events",
+  "eventTitle": "Event",
+  "search": "Search",
+  "fields": {
+    "createdBy": "Created By",
+    "title": "Title",
+    "location": "Location",
+    "type": "Event Type",
+    "action": "Action",
+    "description": "Description",
+    "types": {
+      "organized": "Organized",
+      "unplanned": "Unplanned"
+    },
+    "sort": {
+      "order": "Sort Order",
+      "asc": "Ascending",
+      "desc": "Descending"
+    },
+    "respondedAccountsAmount": "Users responded: {{amount}}",
+    "open": "Open",
+    "eventDate": "Event Date"
+  },
+  "respond": {
+    "buttons": {
+      "respond": "Respond to the Event",
+      "already": "You have already responded to this event"
+    },
+    "successfully": "You have successfully responded to the event: {{name}}"
+  },
+  "gotoMain": "Go to Main Menu",
+  "goBack": "Go Back"
+}

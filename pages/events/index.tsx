@@ -21,6 +21,9 @@ import { useTranslation } from 'next-i18next'
 import dayjs from 'dayjs'
 import { EEventType } from '../../src/types/EEventType'
 import Wrapper from '../../components/Wrapper'
+import { getSession } from 'next-auth/react'
+import { getAccountByEmail } from '../../src/server/account'
+import { TAccount } from '../../src/types/TAccount'
 
 export default function Events(props: { events: TEvent[] }) {
   const defaultPage = 1
@@ -194,11 +197,20 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
   const eventsCollection = db.collection('events')
   const events = JSON.parse(JSON.stringify((await eventsCollection.find({}).toArray()) as TEvent[]))
 
+  const session = await getSession(ctx)
+  let currentAccount
+  if (session && session.user?.email) {
+    currentAccount = JSON.parse(
+      JSON.stringify(await getAccountByEmail(session.user?.email)),
+    ) as TAccount
+  }
+  const locale = currentAccount ? currentAccount.locale : ctx.locale ? ctx.locale : 'ru'
+
   return {
     redirect: await authRedirect(ctx),
     props: {
       events,
-      ...(await serverSideTranslations(ctx.locale ?? 'ru', ['events', 'main', 'common', 'errors'])),
+      ...(await serverSideTranslations(locale, ['events', 'main', 'common', 'errors'])),
     },
   }
 }

@@ -1,0 +1,34 @@
+{
+  "title": "Admin panel",
+  "accounts": "Users",
+  "events": "Events",
+  "mans": "Men",
+  "women": "Women",
+  "organized": "Organized",
+  "unplanned": "Unplanned",
+  "stats": "Statistics",
+  "gotoMain": "Go to main menu",
+  "moderation": {
+    "title": "Moderation",
+    "feedbacks": "Feedbacks",
+    "events": "Events",
+    "accounts": "Accounts",
+    "account": {
+      "banned": "Account successfully banned",
+      "unbanned": "Account successfully unbanned",
+      "open": "Open",
+      "email": "Email",
+      "username": "Username",
+      "action": "Action",
+      "modalName": "Account moderation",
+      "ban": "Ban",
+      "unban": "Unban",
+      "states": {
+        "title": "Moderation state",
+        "banned": "Banned",
+        "unbanned": "Unbanned",
+        "none": "None"
+      }
+    }
+  }
+}

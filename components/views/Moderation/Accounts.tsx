@@ -127,7 +127,7 @@ export const Accounts = (props: { accounts: TAccount[] }): JSX.Element => {
           </Flex>
         </Paper>
       </Container>
-      <Modal opened={opened} onClose={close} title={t('moderation.modalName')} centered>
+      <Modal opened={opened} onClose={close} title={t('moderation.account.modalName')} centered>
         <Flex gap={'md'} direction={'column'}>
           <Title order={4}>{currentAccount?.email ?? ''}</Title>
           <Title order={5}>{currentAccount?.username ?? ''}</Title>

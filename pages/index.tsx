@@ -5,6 +5,9 @@ import { Title, Text, Container, Accordion, Center } from '@mantine/core'
 import Wrapper from '../components/Wrapper'
 import classes from '../styles/Accordion.module.css'
 import { useTranslation } from 'next-i18next'
+import { getAccountByEmail } from '../src/server/account'
+import { TAccount } from '../src/types/TAccount'
+import { getSession } from 'next-auth/react'
 
 path.resolve('./next.config.js')
 path.resolve('./next.config.mjs')
@@ -76,10 +79,18 @@ export default function Home() {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getSession(ctx)
+  let currentAccount
+  if (session && session.user?.email) {
+    currentAccount = JSON.parse(
+      JSON.stringify(await getAccountByEmail(session.user?.email)),
+    ) as TAccount
+  }
+  const locale = currentAccount ? currentAccount.locale : ctx.locale ? ctx.locale : 'ru'
   return {
     props: {
-      ...(await serverSideTranslations(locale || 'ru', ['common'])),
+      ...(await serverSideTranslations(locale, ['common'])),
     },
   }
 }

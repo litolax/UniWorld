@@ -3,12 +3,47 @@
     "companyName": "UniWorld"
   },
   "footer": {
-    "allRights": "© 2024 UniWorld — All rights reserved."
+    "allRights": "© 2024 UniWorld — All rights reserved.",
+    "feedback": "Feedbacks",
+    "aboutUs": "About us",
+    "aboutUsInfo": {
+      "aboutUsContent": "Welcome to our company! We are committed to providing our clients with the best services possible.\n            Our journey began a long time ago and since then we have been committed to providing\n            first class solutions and exceptional customer service. Our mission is to innovate and\n            lead our industry by constantly evolving and improving to meet the needs of our customers.",
+      "ourStory": "Our history",
+      "title": "About us"
+    }
+  },
+  "main": {
+    "title": "Goodness doesn't wait",
+    "description": "We organize volunteer events to help those who need support. Join us and make the world a better place!",
+    "faq": {
+      "title": "FAQ",
+      "1": {
+        "value": "What are volunteer activities?",
+        "description": "Volunteer events are events where people volunteer to help with various projects and initiatives."
+      },
+      "2": {
+        "value": "How can I join?",
+        "description": "You can join our events by registering online and selecting an event that interests you."
+      },
+      "3": {
+        "value": "What types of events do you organize?",
+        "description": "We organize both scheduled events and emergency gatherings that require immediate assistance."
+      },
+      "4": {
+        "value": "Do I need to have experience to participate?",
+        "description": "No, we welcome all comers, regardless of their experience. What matters is your enthusiasm and willingness to help."
+      },
+      "5": {
+        "value": "How can I find out about new events?",
+        "description": "Once registered, you will be able to follow updates on our website."
+      }
+    }
   },
   "buttons": {
     "signUp": "Sign Up",
     "signIn": "Sign In",
-    "signOut": "Sign Out"
+    "signOut": "Sign Out",
+    "mainMenu": "Main menu"
   },
   "username": "Username",
   "email": "Email",

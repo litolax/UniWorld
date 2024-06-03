@@ -124,12 +124,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
     ) as TAccount
   }
 
+  const locale = currentAccount ? currentAccount.locale : ctx.locale ? ctx.locale : 'ru'
+
   return {
     redirect: await authRedirect(ctx),
     props: {
       account: currentAccount,
       event,
-      ...(await serverSideTranslations(ctx.locale ?? 'ru', ['events', 'common', 'main', 'errors'])),
+      ...(await serverSideTranslations(locale, ['events', 'common', 'main', 'errors'])),
     },
   }
 }

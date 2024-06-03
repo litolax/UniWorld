@@ -19,10 +19,12 @@ import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import { sendErrorNotification } from '../src/utils'
-import { signIn } from 'next-auth/react'
+import { getSession, signIn } from 'next-auth/react'
 import { useDisclosure } from '@mantine/hooks'
 import { useState } from 'react'
 import Wrapper from '../components/Wrapper'
+import { getAccountByEmail } from '../src/server/account'
+import { TAccount } from '../src/types/TAccount'
 
 export default function SignIn() {
   const router = useRouter()
@@ -173,10 +175,18 @@ export default function SignIn() {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getSession(ctx)
+  let currentAccount
+  if (session && session.user?.email) {
+    currentAccount = JSON.parse(
+      JSON.stringify(await getAccountByEmail(session.user?.email)),
+    ) as TAccount
+  }
+  const locale = currentAccount ? currentAccount.locale : ctx.locale ? ctx.locale : 'ru'
   return {
     props: {
-      ...(await serverSideTranslations(locale || 'ru', ['common', 'signIn', 'errors'])),
+      ...(await serverSideTranslations(locale, ['common', 'signIn', 'errors'])),
     },
   }
 }

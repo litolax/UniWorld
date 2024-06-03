@@ -165,7 +165,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
     currentAccount = dataFix(await getAccountByEmail(session.user?.email)) as TAccount
   }
 
-  const locale = currentAccount?.locale ?? ctx.locale ?? 'ru'
+  const locale = currentAccount ? currentAccount.locale : ctx.locale ? ctx.locale : 'ru'
 
   if (!currentAccount) {
     redirect = {

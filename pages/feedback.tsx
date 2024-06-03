@@ -124,12 +124,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     JSON.stringify((await feedbacksCollection.find({}).toArray()) as TFeedback[]),
   )
 
+  const locale = account ? account.locale : ctx.locale ? ctx.locale : 'ru'
   return {
     redirect: await authRedirect(ctx),
     props: {
       account,
       feedbacks,
-      ...(await serverSideTranslations(ctx.locale || 'ru', ['feedback', 'common', 'errors'])),
+      ...(await serverSideTranslations(locale, ['feedback', 'common', 'errors'])),
     },
   }
 }
