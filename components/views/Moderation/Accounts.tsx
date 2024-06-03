@@ -89,7 +89,7 @@ export const Accounts = (props: { accounts: TAccount[] }): JSX.Element => {
   }
 
   return (
-    <div>
+    <div style={{ marginTop: '8vh' }}>
       <Container fluid>
         <Title order={1} mb={'xl'} ta={'center'}>
           {t('moderation.accounts')}

@@ -83,7 +83,7 @@ export const Feedbacks = (props: { feedbacks: TFeedback[] }): JSX.Element => {
   }
 
   return (
-    <div>
+    <div style={{ marginTop: '8vh' }}>
       <Container fluid>
         <Title order={1} mb={'xl'} ta={'center'}>
           {t('moderation.title')}

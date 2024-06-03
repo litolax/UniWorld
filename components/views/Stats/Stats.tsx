@@ -20,11 +20,7 @@ export default function Stats(props: {
   ]
 
   return (
-    <div
-      style={{
-        marginTop: '8vh',
-      }}
-    >
+    <div style={{ marginTop: '8vh' }}>
       <Container>
         <Title ta='center'>{t('stats')}</Title>
 
