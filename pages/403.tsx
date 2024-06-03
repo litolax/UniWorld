@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation'
 import { getAccountByEmail } from '../src/server/account'
 import { TAccount } from '../src/types/TAccount'
 import { getSession } from 'next-auth/react'
-import { unstable_getServerSession } from 'next-auth'
 
 export default function Page403() {
   const { t } = useTranslation('errors')
