@@ -12,11 +12,14 @@ import { getAccountByEmail } from '../src/server/account'
 import { authRedirect } from '../src/server/authRedirect'
 import { getSession } from 'next-auth/react'
 import Wrapper from '../components/Wrapper'
+import { EModerationState } from '../src/types/EModerationState'
 
 export default function Feedback(props: { account: TAccount; feedbacks: TFeedback[] }) {
   const { t } = useTranslation('feedback')
   const [feedback, setFeedback] = useState('')
-  const [feedbacks, setFeedbacks] = useState(props.feedbacks)
+  const [feedbacks, setFeedbacks] = useState(
+    props.feedbacks.filter((f) => f.moderationState === EModerationState.Accepted),
+  )
 
   const feedbacksCarouselSlides = feedbacks.map((f) => (
     <>
