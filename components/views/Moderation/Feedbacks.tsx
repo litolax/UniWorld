@@ -11,7 +11,7 @@ export const Feedbacks = (props: { feedbacks: TFeedback[] }): JSX.Element => {
 
   const { t } = useTranslation('feedback')
   const [activePage, setPage] = useState(defaultPage)
-  const [currentFeedback, setCurrentFeedback] = useState<TFeedback>(props.feedbacks[0])
+  const [currentFeedback, setCurrentFeedback] = useState<TFeedback | null>(null)
   const [opened, { open, close }] = useDisclosure(false)
 
   const feedbacks = chunk(
@@ -52,7 +52,10 @@ export const Feedbacks = (props: { feedbacks: TFeedback[] }): JSX.Element => {
       }
     }
 
-    currentFeedback.moderationState = EModerationState.Accepted
+    if (currentFeedback) {
+      currentFeedback.moderationState = EModerationState.Accepted
+    }
+
     sendSuccessNotification(t('moderation.accepted'))
     close()
   }
@@ -71,7 +74,10 @@ export const Feedbacks = (props: { feedbacks: TFeedback[] }): JSX.Element => {
       }
     }
 
-    currentFeedback.moderationState = EModerationState.Declined
+    if (currentFeedback) {
+      currentFeedback.moderationState = EModerationState.Declined
+    }
+
     sendSuccessNotification(t('moderation.declined'))
     close()
   }
@@ -116,8 +122,8 @@ export const Feedbacks = (props: { feedbacks: TFeedback[] }): JSX.Element => {
       </Container>
       <Modal opened={opened} onClose={close} title={t('moderation.modalName')} centered>
         <Flex gap={'md'} direction={'column'}>
-          <Title order={4}>{currentFeedback.createdBy}</Title>
-          <Title order={5}>{currentFeedback.content}</Title>
+          <Title order={4}>{currentFeedback?.createdBy ?? ''}</Title>
+          <Title order={5}>{currentFeedback?.content ?? ''}</Title>
 
           <Flex gap={'md'} direction={'row'}>
             <Button onClick={acceptFeedback}>{t('moderation.accept')}</Button>

@@ -25,9 +25,10 @@ export default function Admin(props: {
   organized: number
   unplanned: number
   feedbacks: TFeedback[]
+  accounts: TAccount[]
 }) {
   const { t } = useTranslation('admin')
-  const [currentPage, setCurrentPage] = useState(EAdminViewPage.None)
+  const [currentPage, setCurrentPage] = useState(EAdminViewPage.Stats)
   const [moderationPage, setModerationPage] = useState(EModerationPage.None)
 
   const adminViewTabs: TMainViewTab[] = [
@@ -129,7 +130,11 @@ export default function Admin(props: {
           />
         )}
         {currentPage === EAdminViewPage.Moderation && (
-          <Moderation currentPage={moderationPage} feedbacks={props.feedbacks} />
+          <Moderation
+            currentPage={moderationPage}
+            feedbacks={props.feedbacks}
+            accounts={props.accounts}
+          />
         )}
       </AppShell.Main>
       <AppShell.Footer>
@@ -143,7 +148,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { db } = await connectToDatabase()
 
   const accountsCollection = db.collection('accounts')
-  const accounts = (await accountsCollection.find({}).toArray()) as TAccount[]
+  const accounts = JSON.parse(
+    JSON.stringify((await accountsCollection.find({}).toArray()) as TAccount[]),
+  ) as TAccount[]
   const mans = accounts.filter((a) => a.sex === ESex.Male).length
   const women = accounts.length - mans
 
@@ -165,6 +172,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       organized,
       unplanned,
       feedbacks,
+      accounts,
       ...(await serverSideTranslations(ctx.locale || 'ru', [
         'admin',
         'feedback',

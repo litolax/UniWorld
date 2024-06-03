@@ -3,6 +3,7 @@ import { connectToDatabase } from '../../../src/server/database'
 import { TAccount } from '../../../src/types/TAccount'
 import * as argon2 from 'argon2'
 import { Totp } from 'time2fa'
+import { EAccountModerationState } from '../../../src/types/EAccountModerationState'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const requestBody = req.body
@@ -38,6 +39,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (account.mFAEnabled && !valid) {
     return res.status(410).json({})
+  }
+
+  if (account.moderationState === EAccountModerationState.Banned) {
+    return res.status(411).json({})
   }
 
   return res.status(200).json({})

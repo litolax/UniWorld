@@ -63,6 +63,10 @@ export default function SignIn() {
           sendErrorNotification(t('errors:invalid.mfaCode'))
           return
         }
+        case 411: {
+          sendErrorNotification(t('errors:youAre.banned'))
+          return
+        }
         default: {
           throw new Error(response.statusText)
         }

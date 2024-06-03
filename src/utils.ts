@@ -1,5 +1,6 @@
 import { notifications } from '@mantine/notifications'
 import { EEventType } from './types/EEventType'
+import { EAccountModerationState } from './types/EAccountModerationState'
 
 export const sendNotification = (
   title: string,
@@ -109,3 +110,17 @@ export const truncateText = (text: string, maxLength: number) => {
 
 export const getStringFromEventType = (type: EEventType) =>
   type === EEventType.Organized ? 'fields.types.organized' : 'fields.types.unplanned'
+
+export const getStringFromAccountModerationState = (state: EAccountModerationState) => {
+  switch (state) {
+    case EAccountModerationState.Banned: {
+      return 'moderation.account.states.banned'
+    }
+    case EAccountModerationState.Unbanned: {
+      return 'moderation.account.states.unbanned'
+    }
+    default: {
+      return 'moderation.account.states.none'
+    }
+  }
+}

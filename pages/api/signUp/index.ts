@@ -5,6 +5,7 @@ import { ObjectID } from 'bson'
 import * as argon2 from 'argon2'
 import { ESex } from '../../../src/types/ESex'
 import { ELanguage } from '../../../src/types/ELanguage'
+import { EAccountModerationState } from '../../../src/types/EAccountModerationState'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const requestBody = req.body
@@ -36,6 +37,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     locale: ELanguage.RUSSIAN,
     mFAEnabled: false,
     admin: false,
+    moderationState: EAccountModerationState.Unbanned,
   }
 
   collection.insertOne(account)

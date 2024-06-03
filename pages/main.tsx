@@ -30,7 +30,7 @@ export default function MainMenu(props: { account: TAccount; savedLocale: ELangu
     context.accountStore.setAccount(props.account)
   }, [])
 
-  const [currentPage, setCurrentPage] = useState(EMainViewPage.None)
+  const [currentPage, setCurrentPage] = useState(EMainViewPage.Profile)
   const [settingPage, setSettingsPage] = useState(ESettingPage.None)
   const [eventPage, setEventPage] = useState(EEventPage.None)
   const mainViewTabs: TMainViewTab[] = [
