@@ -18,6 +18,8 @@ import { EEventType } from '../src/types/EEventType'
 import { EModerationPage } from '../src/types/EModerationPage'
 import { Moderation } from '../components/views/Moderation/Moderation'
 import { TFeedback } from '../src/types/TFeedback'
+import { getAccountByEmail } from '../src/server/account'
+import { getSession } from 'next-auth/react'
 
 export default function Admin(props: {
   mans: number
@@ -146,11 +148,20 @@ export default function Admin(props: {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { db } = await connectToDatabase()
+  const session = await getSession(ctx)
 
   const accountsCollection = db.collection('accounts')
   const accounts = JSON.parse(
     JSON.stringify((await accountsCollection.find({}).toArray()) as TAccount[]),
   ) as TAccount[]
+
+  let currentAccount
+  if (session && session.user?.email) {
+    currentAccount = JSON.parse(
+      JSON.stringify(await getAccountByEmail(session.user?.email)),
+    ) as TAccount
+  }
+
   const mans = accounts.filter((a) => a.sex === ESex.Male).length
   const women = accounts.length - mans
 
@@ -164,6 +175,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     JSON.stringify((await feedbacksCollection.find({}).toArray()) as TFeedback[]),
   )
 
+  const locale = currentAccount ? currentAccount.locale : ctx.locale ? ctx.locale : 'ru'
+
   return {
     redirect: await authRedirect(ctx),
     props: {
@@ -173,12 +186,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       unplanned,
       feedbacks,
       accounts,
-      ...(await serverSideTranslations(ctx.locale || 'ru', [
-        'admin',
-        'feedback',
-        'common',
-        'errors',
-      ])),
+      ...(await serverSideTranslations(locale, ['admin', 'feedback', 'common', 'errors'])),
     },
   }
 }

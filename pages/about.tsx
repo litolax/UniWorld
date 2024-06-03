@@ -4,6 +4,9 @@ import { useTranslation } from 'next-i18next'
 import { authRedirect } from '../src/server/authRedirect'
 import { Container, Paper, Text, Title } from '@mantine/core'
 import Wrapper from '../components/Wrapper'
+import { getSession } from 'next-auth/react'
+import { getAccountByEmail } from '../src/server/account'
+import { TAccount } from '../src/types/TAccount'
 
 export default function About() {
   const { t } = useTranslation('feedback')
@@ -30,10 +33,18 @@ export default function About() {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getSession(ctx)
+  let currentAccount
+  if (session && session.user?.email) {
+    currentAccount = JSON.parse(
+      JSON.stringify(await getAccountByEmail(session.user?.email)),
+    ) as TAccount
+  }
+  const locale = currentAccount ? currentAccount.locale : ctx.locale ? ctx.locale : 'ru'
   return {
     redirect: await authRedirect(ctx),
     props: {
-      ...(await serverSideTranslations(ctx.locale || 'ru', ['common', 'errors'])),
+      ...(await serverSideTranslations(locale, ['common', 'errors'])),
     },
   }
 }

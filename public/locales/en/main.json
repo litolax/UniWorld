@@ -9,16 +9,65 @@
           "event": "Events"
         },
         "sections": {
-          "profile": {},
+          "profile": {
+            "successfullyUpdated": "Profile data successfully updated",
+            "save": "Save",
+            "editMode": "Edit Mode"
+          },
           "settings": {
             "main": {
-              "title": "Main",
-              "header": "Main Settings",
+              "title": "General",
+              "header": "General Settings",
               "language": {
                 "title": "Select Language",
                 "placeholder": "English...",
-                "nothingFound": "Nothing found"
+                "nothingFound": "Not Found"
               }
+            },
+            "password": {
+              "title": "Password",
+              "header": "Password Settings",
+              "errors": {
+                "newPasswordTooLittle": "New password is too short",
+                "newPasswordsMismatch": "New passwords do not match"
+              },
+              "successfullyChanged": "Password successfully changed",
+              "changePassword": "Change Password",
+              "oldPassword": "Old Password",
+              "newPassword": "New Password",
+              "repeatNewPassword": "Repeat New Password",
+              "changePasswordButton": "Change Password",
+              "reset": {
+                "email": {
+                  "subject": "Password Reset",
+                  "text": "Your account password has been reset. Use the following password for future logins: "
+                },
+                "success": "Password successfully reset, please check your email",
+                "button": "Reset Password"
+              }
+            },
+            "mfa": {
+              "title": "2FA",
+              "header": "Two-Factor Authentication",
+              "enable": "Enable",
+              "disable": "Disable",
+              "notifications": {
+                "invalidCode": "Invalid code entered",
+                "enabledSuccessfully": "Successfully enabled",
+                "disabledSuccessfully": "Successfully disabled",
+                "invalidPasswordOrCode": "Invalid password or code"
+              },
+              "mfaState": {
+                "title": "Two-Factor Authentication Status",
+                "enabled": "Enabled",
+                "disabled": "Disabled"
+              },
+              "scanQr": "Scan the QR code or enter the code in the app",
+              "enterCode": "Enter 2FA code",
+              "submit": "Submit",
+              "cancel": "Cancel",
+              "disablingMfa": "Disabling Two-Factor Authentication",
+              "password": "Password"
             },
             "save": "Save Settings"
           },
@@ -29,7 +78,7 @@
             "create": {
               "title": "Create",
               "header": "Create Event",
-              "createdSuccessfully": "Event created successfully",
+              "createdSuccessfully": "Event successfully created",
               "fields": {
                 "names": {
                   "title": "Title",

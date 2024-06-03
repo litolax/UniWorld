@@ -17,5 +17,8 @@
     }
   },
   "doNotHaveAccount": "Don't have an account? Sign up",
+  "mfaModalTitle": "Two-Factor Authentication",
+  "mfaCode": "2FA code",
+  "submit": "Submit",
   "signIn": "Sign In"
 }

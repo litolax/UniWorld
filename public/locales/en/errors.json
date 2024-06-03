@@ -18,5 +18,15 @@
       "email": "Account with this email not found",
       "password": "Incorrect password"
     }
+  },
+  "invalid": {
+    "mfaCode": "Invalid 2FA code",
+    "request": "Invalid request"
+  },
+  "tooLittle": {
+    "feedback": "Feedback cannot be less than 3 characters"
+  },
+  "youAre": {
+    "banned": "You have been banned"
   }
 }

@@ -1,0 +1,20 @@
+{
+  "title": "Write a Review About Us",
+  "feedback": "Feedback",
+  "createdBy": "Sender",
+  "thanks": "We appreciate you sending feedback about our company",
+  "sendButton": "Send Feedback",
+  "allFeedbacks": "Feedback About Our Company",
+  "moderation": {
+    "title": "Feedback Moderation",
+    "accept": "Accept",
+    "accepted": "Feedback successfully accepted",
+    "decline": "Decline",
+    "declined": "Feedback successfully declined",
+    "open": "Open",
+    "createdBy": "Created By",
+    "content": "Content",
+    "action": "Action",
+    "modalName": "Feedback Moderation"
+  }
+}

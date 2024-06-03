@@ -5,6 +5,9 @@ import { Image, Container, Title, Text, Button, SimpleGrid } from '@mantine/core
 import { useRouter } from 'next/navigation'
 import image from '../public/images/404.svg'
 import classes from '../styles/NotFoundImage.module.css'
+import { getSession } from 'next-auth/react'
+import { getAccountByEmail } from '../src/server/account'
+import { TAccount } from '../src/types/TAccount'
 
 export default function Page404() {
   const { t } = useTranslation('errors')
@@ -35,10 +38,18 @@ export default function Page404() {
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const session = await getSession(ctx.params)
+  let currentAccount
+  if (session && session.user?.email) {
+    currentAccount = JSON.parse(
+      JSON.stringify(await getAccountByEmail(session.user?.email)),
+    ) as TAccount
+  }
+  const locale = currentAccount ? currentAccount.locale : ctx.locale ? ctx.locale : 'ru'
   return {
     props: {
-      ...(await serverSideTranslations(locale || 'ru', ['errors'])),
+      ...(await serverSideTranslations(locale, ['errors'])),
     },
   }
 }

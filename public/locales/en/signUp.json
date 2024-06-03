@@ -2,9 +2,9 @@
   "welcome": "Welcome to UniWorld!",
   "fields": {
     "username": {
-      "label": "Username",
-      "placeholder": "Your username",
-      "tooLittle": "Username must be at least 4 characters long"
+      "label": "Name",
+      "placeholder": "Your name",
+      "tooLittle": "Name must be at least 4 characters long"
     },
     "email": {
       "label": "Email",
@@ -17,7 +17,7 @@
       "tooLittle": "Password must be at least 6 characters long"
     },
     "sex": {
-      "shouldBeSelected": "Sex must be selected"
+      "shouldBeSelected": "Gender must be selected"
     }
   },
   "alreadyHaveAnAccount": "Already have an account? Sign in",
