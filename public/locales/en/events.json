@@ -30,5 +30,13 @@
     "successfully": "You have successfully responded to the event: {{name}}"
   },
   "gotoMain": "Go to Main Menu",
-  "goBack": "Go Back"
+  "goBack": "Go Back",
+  "moderation": {
+    "title": "Events Moderation",
+    "remove": "Remove",
+    "removed": "Review successfully removed",
+    "open": "Open",
+    "action": "Action",
+    "modalName": "Event Moderation"
+  }
 }

@@ -28,6 +28,7 @@ export default function Admin(props: {
   unplanned: number
   feedbacks: TFeedback[]
   accounts: TAccount[]
+  events: TEvent[]
 }) {
   const { t } = useTranslation('admin')
   const [currentPage, setCurrentPage] = useState(EAdminViewPage.Stats)
@@ -136,6 +137,7 @@ export default function Admin(props: {
             currentPage={moderationPage}
             feedbacks={props.feedbacks}
             accounts={props.accounts}
+            events={props.events}
           />
         )}
       </AppShell.Main>
@@ -166,7 +168,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const women = accounts.length - mans
 
   const eventsCollection = db.collection('events')
-  const events = (await eventsCollection.find({}).toArray()) as TEvent[]
+  const events = JSON.parse(
+    JSON.stringify((await eventsCollection.find({}).toArray()) as TEvent[]),
+  ) as TEvent[]
   const organized = events.filter((e) => e.type === EEventType.Organized).length
   const unplanned = events.length - organized
 
@@ -186,7 +190,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       unplanned,
       feedbacks,
       accounts,
-      ...(await serverSideTranslations(locale, ['admin', 'feedback', 'common', 'errors'])),
+      events,
+      ...(await serverSideTranslations(locale, [
+        'admin',
+        'events',
+        'feedback',
+        'common',
+        'errors',
+      ])),
     },
   }
 }
