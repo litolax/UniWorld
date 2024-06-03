@@ -1,15 +1,15 @@
 import { Button, Select, Title } from '@mantine/core'
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'next-i18next'
 import { ELanguage } from '../../../src/types/ELanguage'
 import { useRouter } from 'next/router'
 import { API } from '../../../src/server/API'
-import { StoreContext } from '../../../src/stores/CombinedStores'
+import { TAccount } from '../../../src/types/TAccount'
 
-export const Main = (): JSX.Element => {
-  const context = useContext(StoreContext)
-  const account = context.accountStore.account
-  const [language, setLanguage] = useState<ELanguage | null>(account?.locale ?? ELanguage.RUSSIAN)
+export const Main = (props: { account: TAccount }): JSX.Element => {
+  const [language, setLanguage] = useState<ELanguage | null>(
+    props.account?.locale ?? ELanguage.RUSSIAN,
+  )
   const languages = [
     { value: 'ru', label: 'Русский' },
     { value: 'en', label: 'English' },
@@ -21,7 +21,7 @@ export const Main = (): JSX.Element => {
   const selectLanguage = async (newLanguage: string | null) => {
     newLanguage = newLanguage ?? 'ru'
     setLanguage(newLanguage as ELanguage)
-    await API.updateAccountLocale(account!.email, newLanguage)
+    await API.updateAccountLocale(props.account!.email, newLanguage)
   }
 
   const saveButtons = () => {

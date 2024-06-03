@@ -1,19 +1,16 @@
 import { Button, Flex, PasswordInput, Title } from '@mantine/core'
 import { useTranslation } from 'next-i18next'
-import { useContext, useState } from 'react'
-import { StoreContext } from '../../../src/stores/CombinedStores'
+import { useState } from 'react'
 import { sendErrorNotification, sendSuccessNotification } from '../../../src/utils'
+import { TAccount } from '../../../src/types/TAccount'
 
-export const Password = (): JSX.Element => {
-  const context = useContext(StoreContext)
+export const Password = (props: { account: TAccount }): JSX.Element => {
   const { t } = useTranslation('main')
   const [oldPassword, setOldPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [repeatedNewPassword, setRepeatedNewPassword] = useState('')
 
   const changePassword = async () => {
-    const email = context.accountStore.account?.email
-
     if (newPassword.length < 6) {
       sendErrorNotification(
         t('ui.views.main.sections.settings.password.errors.newPasswordTooLittle'),
@@ -30,7 +27,7 @@ export const Password = (): JSX.Element => {
 
     const response = await fetch('/api/account/password/change', {
       method: 'POST',
-      body: JSON.stringify({ email, oldPassword, newPassword }),
+      body: JSON.stringify({ email: props.account.email, oldPassword, newPassword }),
     })
 
     if (!response.ok) {
@@ -56,12 +53,10 @@ export const Password = (): JSX.Element => {
   }
 
   const resetPassword = async () => {
-    const email = context.accountStore.account?.email
-
     const response = await fetch('/api/account/password/reset', {
       method: 'POST',
       body: JSON.stringify({
-        email,
+        email: props.account.email,
         subject: t('ui.views.main.sections.settings.password.reset.email.subject'),
         text: t('ui.views.main.sections.settings.password.reset.email.text'),
       }),

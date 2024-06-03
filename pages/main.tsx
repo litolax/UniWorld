@@ -7,7 +7,7 @@ import Footer from '../components/Footer'
 import { Profile } from '../components/views/Profile'
 import { TMainViewTab } from '../src/types/TMainViewTab'
 import { EMainViewTabType } from '../src/types/EMainViewTabType'
-import { useContext, useEffect, useState } from 'react'
+import { useState } from 'react'
 import { ESettingPage } from '../src/types/ESettingPage'
 import { Settings } from '../components/views/Settings/Settings'
 import { EMainViewPage } from '../src/types/EMainViewPage'
@@ -18,17 +18,11 @@ import { dataFix } from '../src/utils'
 import { EEventPage } from '../src/types/EEventPage'
 import { Event } from '../components/views/Event/Event'
 import { ELanguage } from '../src/types/ELanguage'
-import { StoreContext } from '../src/stores/CombinedStores'
 import { useRouter } from 'next/navigation'
 
 export default function MainMenu(props: { account: TAccount; savedLocale: ELanguage }) {
   const { t } = useTranslation('main')
-  const context = useContext(StoreContext)
   const router = useRouter()
-
-  useEffect(() => {
-    context.accountStore.setAccount(props.account)
-  }, [])
 
   const [currentPage, setCurrentPage] = useState(EMainViewPage.Profile)
   const [settingPage, setSettingsPage] = useState(ESettingPage.None)
@@ -147,9 +141,13 @@ export default function MainMenu(props: { account: TAccount; savedLocale: ELangu
           backgroundColor: 'rgb(36, 36, 36)',
         }}
       >
-        {currentPage === EMainViewPage.Profile && <Profile />}
-        {currentPage === EMainViewPage.Settings && <Settings currentPage={settingPage} />}
-        {currentPage === EMainViewPage.Event && <Event currentPage={eventPage} />}
+        {currentPage === EMainViewPage.Profile && <Profile account={props.account} />}
+        {currentPage === EMainViewPage.Settings && (
+          <Settings currentPage={settingPage} account={props.account} />
+        )}
+        {currentPage === EMainViewPage.Event && (
+          <Event currentPage={eventPage} account={props.account} />
+        )}
       </AppShell.Main>
       <AppShell.Footer>
         <Footer />

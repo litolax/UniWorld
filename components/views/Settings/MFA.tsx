@@ -11,17 +11,14 @@ import {
   Title,
 } from '@mantine/core'
 import { useTranslation } from 'next-i18next'
-import { useContext, useState } from 'react'
-import { StoreContext } from '../../../src/stores/CombinedStores'
+import { useState } from 'react'
 import { sendErrorNotification, sendSuccessNotification } from '../../../src/utils'
+import { TAccount } from '../../../src/types/TAccount'
 
-export const MFA = (): JSX.Element => {
+export const MFA = (props: { account: TAccount }): JSX.Element => {
   const { t } = useTranslation('main')
 
-  const context = useContext(StoreContext)
-  const account = context.accountStore.account
-
-  const [state, setState] = useState(account?.mFAEnabled ?? false)
+  const [state, setState] = useState(props.account?.mFAEnabled ?? false)
   const [QRCode, setQRCode] = useState('')
   const [secret, setSecret] = useState('')
   const [submitCode, setSubmitCode] = useState('')
@@ -51,7 +48,7 @@ export const MFA = (): JSX.Element => {
   }
 
   const enable = async () => {
-    const email = account?.email
+    const email = props.account?.email
     const response = await fetch('/api/mfa/enable', {
       method: 'POST',
       body: JSON.stringify({ email }),
@@ -65,7 +62,7 @@ export const MFA = (): JSX.Element => {
   }
 
   const submit = async () => {
-    const email = account?.email
+    const email = props.account?.email
 
     const response = await fetch('/api/mfa/submit', {
       method: 'POST',
@@ -94,7 +91,7 @@ export const MFA = (): JSX.Element => {
   }
 
   const disable = async () => {
-    const email = account?.email
+    const email = props.account?.email
 
     const response = await fetch('/api/mfa/disable', {
       method: 'POST',
