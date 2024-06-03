@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { connectToDatabase } from '../../../src/server/database'
 import { TFeedback } from '../../../src/types/TFeedback'
 import { ObjectId } from 'bson'
+import { EModerationState } from '../../../src/types/EModerationState'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const requestBody = req.body
@@ -21,6 +22,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       _id: new ObjectId(),
       content,
       createdBy: email,
+      moderationState: EModerationState.InReview,
     }
 
     await collection.insertOne(feedback)

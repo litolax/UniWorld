@@ -60,7 +60,6 @@ export default function Feedback(props: { account: TAccount; feedbacks: TFeedbac
 
     sendSuccessNotification(t('thanks'))
     setFeedback('')
-    setFeedbacks([...feedbacks, { content: feedback, createdBy: props.account.email } as TFeedback])
   }
   return (
     <Wrapper>

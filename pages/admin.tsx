@@ -165,7 +165,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       organized,
       unplanned,
       feedbacks,
-      ...(await serverSideTranslations(ctx.locale || 'ru', ['admin', 'common', 'errors'])),
+      ...(await serverSideTranslations(ctx.locale || 'ru', [
+        'admin',
+        'feedback',
+        'common',
+        'errors',
+      ])),
     },
   }
 }
