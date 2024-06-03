@@ -17,7 +17,7 @@ import { EModerationState } from '../src/types/EModerationState'
 export default function Feedback(props: { account: TAccount; feedbacks: TFeedback[] }) {
   const { t } = useTranslation('feedback')
   const [feedback, setFeedback] = useState('')
-  const [feedbacks, setFeedbacks] = useState(
+  const [feedbacks] = useState(
     props.feedbacks.filter((f) => f.moderationState === EModerationState.Accepted),
   )
 
