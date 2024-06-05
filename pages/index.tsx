@@ -8,6 +8,7 @@ import { useTranslation } from 'next-i18next'
 import { getAccountByEmail } from '../src/server/account'
 import { TAccount } from '../src/types/TAccount'
 import { getSession } from 'next-auth/react'
+import { connectToDatabase } from '../src/server/database'
 
 path.resolve('./next.config.js')
 path.resolve('./next.config.mjs')
@@ -80,6 +81,8 @@ export default function Home() {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  connectToDatabase()
+
   const session = await getSession(ctx)
   let currentAccount
   if (session && session.user?.email) {
