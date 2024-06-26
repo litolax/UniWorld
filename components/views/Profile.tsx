@@ -37,6 +37,8 @@ export const Profile = (props: { account: TAccount }): JSX.Element => {
 
     sendSuccessNotification(t('ui.views.main.sections.profile.successfullyUpdated'))
     setEditorMode(false)
+    props.account.sex = sex
+    props.account.username = username
   }
 
   return (
